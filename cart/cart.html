@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetish Zone | Secure Checkout</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Animate.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --secondary: #f43f5e;
+        --accent: #06b6d4;
+        --dark: #1e293b;
+        --darker: #0f172a;
+        --light: #f8fafc;
+        --gray: #94a3b8;
+        --gray-light: #cbd5e1;
+        --gold: #f59e0b;
+        --success: #10b981;
+        --error: #ef4444;
+        --warning: #f59e0b;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--darker);
+        color: var(--light);
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-image: radial-gradient(
+            at 80% 0%,
+            hsla(189, 100%, 56%, 0.1) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 0% 50%,
+            hsla(355, 100%, 93%, 0.1) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 80% 100%,
+            hsla(260, 100%, 70%, 0.1) 0px,
+            transparent 50%
+          );
+      }
+
+      /* Luxury Loader */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      }
+
+      .loader-container.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        margin-bottom: 2rem;
+      }
+
+      .loader-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid transparent;
+        border-radius: 50%;
+        animation: spin 2s linear infinite;
+      }
+
+      .loader-ring:nth-child(1) {
+        border-top-color: var(--primary);
+        animation-delay: 0s;
+      }
+
+      .loader-ring:nth-child(2) {
+        border-right-color: var(--secondary);
+        animation-delay: 0.3s;
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+      }
+
+      .loader-ring:nth-child(3) {
+        border-bottom-color: var(--gold);
+        animation-delay: 0.6s;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 2rem;
+        animation: pulse 2s infinite;
+        filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+      }
+
+      .loader-text {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--primary),
+          var(--secondary),
+          var(--gold)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      .loader-subtitle {
+        margin-top: 1rem;
+        color: var(--gray);
+        font-size: 1rem;
+        letter-spacing: 1px;
+        animation: fadeInOut 2s infinite;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: var(--transition);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        transform: rotate(15deg) scale(1.1);
+      }
+
+      .brand-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .back-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .user-btn,
+      .menu-btn {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--light);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1.1rem;
+      }
+
+      .user-btn:hover,
+      .menu-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      /* Mobile Menu Button */
+      .menu-btn {
+        display: none;
+      }
+
+      /* Main Container */
+      .main-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.5s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Checkout Title */
+      .checkout-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--light);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+      }
+
+      .checkout-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 3px;
+      }
+
+      /* Checkout Grid */
+      .checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+      }
+
+      /* Shipping Form */
+      .shipping-section {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow);
+        animation: slideInLeft 0.8s ease-out;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--light);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .shipping-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+
+      .form-label {
+        display: block;
+        color: var(--gray);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 0.9rem;
+        transition: var(--transition);
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+      }
+
+      .form-select {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 0.9rem;
+        transition: var(--transition);
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 1em;
+      }
+
+      .form-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+      }
+
+      /* Payment Method */
+      .payment-section {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow);
+        animation: slideInLeft 0.8s ease-out 0.2s;
+        animation-fill-mode: backwards;
+      }
+
+      .payment-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .payment-method {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .payment-method:hover {
+        border-color: var(--primary);
+        background: rgba(139, 92, 246, 0.1);
+      }
+
+      .payment-method.active {
+        border-color: var(--primary);
+        background: rgba(139, 92, 246, 0.2);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      }
+
+      .payment-method-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-size: 1.2rem;
+      }
+
+      .payment-method-info {
+        flex: 1;
+      }
+
+      .payment-method-title {
+        font-weight: 600;
+        color: var(--light);
+        margin-bottom: 0.2rem;
+      }
+
+      .payment-method-description {
+        font-size: 0.8rem;
+        color: var(--gray);
+      }
+
+      .crypto-wallets {
+        display: none;
+        margin-top: 1.5rem;
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .crypto-wallet {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+      }
+
+      .crypto-wallet:hover {
+        border-color: var(--primary);
+      }
+
+      .crypto-wallet-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .crypto-wallet-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .crypto-wallet-title {
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .crypto-wallet-address {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+        word-break: break-all;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .crypto-wallet-amount {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .crypto-amount-label {
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      .crypto-amount-value {
+        font-weight: 600;
+        color: var(--gold);
+      }
+
+      .copy-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .copy-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .crypto-note {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-top: 1rem;
+        line-height: 1.5;
+      }
+
+      /* Order Summary */
+      .order-summary {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 120px;
+        animation: slideInRight 0.8s ease-out;
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .order-items {
+        margin-bottom: 2rem;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+      }
+
+      .order-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .order-item-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .order-item-details {
+        flex: 1;
+      }
+
+      .order-item-title {
+        font-weight: 600;
+        color: var(--light);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .order-item-price {
+        color: var(--gold);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .order-item-quantity {
+        color: var(--gray);
+        font-size: 0.8rem;
+      }
+
+      .order-totals {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .order-total {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .order-total-label {
+        color: var(--gray);
+      }
+
+      .order-total-value {
+        font-weight: 600;
+      }
+
+      .order-grand-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 1.1rem;
+      }
+
+      .grand-total-label {
+        color: var(--light);
+        font-weight: 600;
+      }
+
+      .grand-total-value {
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 1.3rem;
+      }
+
+      .place-order-btn {
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .place-order-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      }
+
+      .place-order-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Status Messages */
+      .status-message {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, var(--success), #059669);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-lg);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        z-index: 4000;
+        transform: translateX(150%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        max-width: 350px;
+      }
+
+      .status-message.show {
+        transform: translateX(0);
+      }
+
+      .status-message.error {
+        background: linear-gradient(135deg, var(--error), #dc2626);
+      }
+
+      .status-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .status-text h4 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .status-text p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      /* Order Confirmation Modal */
+      .confirmation-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .confirmation-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .confirmation-container {
+        background: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 500px;
+        width: 90%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transform: scale(0.9);
+        transition: var(--transition);
+        text-align: center;
+      }
+
+      .confirmation-modal.active .confirmation-container {
+        transform: scale(1);
+      }
+
+      .confirmation-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 3rem;
+        animation: bounce 1s ease infinite alternate;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .confirmation-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--light);
+      }
+
+      .confirmation-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .confirmation-details {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+      }
+
+      .confirmation-detail {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+
+      .confirmation-detail:last-child {
+        margin-bottom: 0;
+      }
+
+      .detail-label {
+        color: var(--gray);
+      }
+
+      .detail-value {
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .confirmation-actions {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .confirmation-btn {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .view-order-btn {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+      }
+
+      .view-order-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      }
+
+      .continue-shopping-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .continue-shopping-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .main-container {
+          padding: 1.5rem;
+        }
+
+        .checkout-grid {
+          grid-template-columns: 1fr 350px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .checkout-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .order-summary {
+          position: static;
+          margin-top: 2rem;
+        }
+
+        .shipping-form {
+          grid-template-columns: 1fr;
+        }
+
+        .form-group.full-width {
+          grid-column: span 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          padding: 0 1rem;
+        }
+
+        .menu-btn {
+          display: flex;
+        }
+
+        .header-actions > .user-btn {
+          display: none;
+        }
+
+        .main-container {
+          padding: 1rem;
+        }
+
+        .checkout-title {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 1.3rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .brand-name {
+          font-size: 1.5rem;
+        }
+
+        .checkout-title {
+          font-size: 1.8rem;
+        }
+
+        .confirmation-container {
+          padding: 2rem 1.5rem;
+        }
+
+        .confirmation-title {
+          font-size: 1.5rem;
+        }
+
+        .confirmation-actions {
+          flex-direction: column;
+        }
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--secondary)
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Luxury Loader -->
+    <div class="loader-container" id="loader">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+        alt="Fetish Zone Logo"
+        class="loader-logo"
+      />
+      <div class="loader-text">Fetish Zone</div>
+      <div class="loader-subtitle">Secure Checkout</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-container">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+            alt="Fetish Zone Logo"
+            class="logo"
+          />
+          <h1 class="brand-name">Fetish Zone</h1>
+        </div>
+
+        <div class="header-actions">
+          <button class="back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i>
+            <!-- Back to Shop -->
+          </button>
+
+          <button class="user-btn" id="userBtn">
+            <i class="fas fa-user"></i>
+          </button>
+
+          <button class="menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <h1 class="checkout-title">
+        <i class="fas fa-lock"></i>
+        Secure Checkout
+      </h1>
+
+      <div class="checkout-grid">
+        <div class="checkout-form">
+          <!-- Shipping Information -->
+          <section class="shipping-section">
+            <h2 class="section-title">
+              <i class="fas fa-truck"></i>
+              Shipping Information
+            </h2>
+            <form class="shipping-form" id="shippingForm">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" id="firstName" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" id="lastName" required />
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="email" required />
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-input" id="phone" required />
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label">Street Address</label>
+                <input type="text" class="form-input" id="address" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input type="text" class="form-input" id="city" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">State/Province</label>
+                <input type="text" class="form-input" id="state" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Postal Code</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="postalCode"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <select class="form-select" id="country" required>
+                  <option value="">Select Country</option>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="AU">Australia</option>
+                  <option value="DE">Germany</option>
+                  <option value="FR">France</option>
+                  <option value="JP">Japan</option>
+                  <!-- Add more countries as needed -->
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label"
+                  >Delivery Instructions (Optional)</label
+                >
+                <textarea
+                  class="form-input"
+                  id="instructions"
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </section>
+
+          <!-- Payment Method -->
+          <section class="payment-section">
+            <h2 class="section-title">
+              <i class="fas fa-credit-card"></i>
+              Payment Method
+            </h2>
+            <div class="payment-methods">
+              <div class="payment-method active" id="cryptoPayment">
+                <div class="payment-method-icon">
+                  <i class="fab fa-bitcoin"></i>
+                </div>
+                <div class="payment-method-info">
+                  <div class="payment-method-title">Cryptocurrency</div>
+                  <div class="payment-method-description">
+                    Pay with USDT, BTC, ETH or other cryptocurrencies
+                  </div>
+                </div>
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <!-- Additional payment methods can be added here -->
+            </div>
+
+            <div class="crypto-wallets" id="cryptoWallets">
+              <div class="crypto-wallet">
+                <div class="crypto-wallet-header">
+                  <div class="crypto-wallet-icon">
+                    <i class="fab fa-bitcoin"></i>
+                  </div>
+                  <div class="crypto-wallet-title">USDT (TRC20)</div>
+                </div>
+                <div class="crypto-wallet-address" id="usdtAddress">
+                  TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE
+                </div>
+                <div class="crypto-wallet-amount">
+                  <span class="crypto-amount-label">Amount:</span>
+                  <span class="crypto-amount-value" id="usdtAmount"
+                    >0.00 USDT</span
+                  >
+                </div>
+                <button class="copy-btn" id="copyUsdtBtn">
+                  <i class="fas fa-copy"></i>
+                  Copy Address
+                </button>
+                <p class="crypto-note">
+                  Please send the exact amount to this address. Your order will
+                  be processed after 3 network confirmations.
+                </p>
+              </div>
+
+              <div class="crypto-wallet">
+                <div class="crypto-wallet-header">
+                  <div class="crypto-wallet-icon">
+                    <i class="fab fa-ethereum"></i>
+                  </div>
+                  <div class="crypto-wallet-title">ETH (ERC20)</div>
+                </div>
+                <div class="crypto-wallet-address" id="ethAddress">
+                  0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                </div>
+                <div class="crypto-wallet-amount">
+                  <span class="crypto-amount-label">Amount:</span>
+                  <span class="crypto-amount-value" id="ethAmount"
+                    >0.00 ETH</span
+                  >
+                </div>
+                <button class="copy-btn" id="copyEthBtn">
+                  <i class="fas fa-copy"></i>
+                  Copy Address
+                </button>
+                <p class="crypto-note">
+                  Please include the transaction hash in the form below after
+                  payment.
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group full-width" style="margin-top: 2rem">
+              <label class="form-label">Transaction Hash (Required)</label>
+              <input
+                type="text"
+                class="form-input"
+                id="transactionHash"
+                placeholder="Enter the transaction hash from your payment"
+                required
+              />
+            </div>
+          </section>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h2 class="section-title">
+            <i class="fas fa-shopping-bag"></i>
+            Order Summary
+          </h2>
+          <div class="order-items" id="orderItems">
+            <!-- Order items will be loaded here -->
+          </div>
+          <div class="order-totals">
+            <div class="order-total">
+              <span class="order-total-label">Subtotal</span>
+              <span class="order-total-value" id="subtotal">$0.00</span>
+            </div>
+            <div class="order-total">
+              <span class="order-total-label">Shipping</span>
+              <span class="order-total-value" id="shipping">$0.00</span>
+            </div>
+            <div class="order-total">
+              <span class="order-total-label">Tax</span>
+              <span class="order-total-value" id="tax">$0.00</span>
+            </div>
+            <div class="order-total">
+              <span class="order-total-label">Discount</span>
+              <span class="order-total-value" id="discount">-$0.00</span>
+            </div>
+            <div class="order-grand-total">
+              <span class="grand-total-label">Total</span>
+              <span class="grand-total-value" id="grandTotal">$0.00</span>
+            </div>
+          </div>
+          <button class="place-order-btn" id="placeOrderBtn" disabled>
+            <i class="fas fa-lock"></i>
+            Place Order Securely
+          </button>
+          <p
+            style="
+              text-align: center;
+              margin-top: 1rem;
+              color: var(--gray);
+              font-size: 0.8rem;
+            "
+          >
+            <i class="fas fa-shield-alt"></i> Secure checkout powered by crypto
+            payments
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+      <div class="confirmation-container">
+        <div class="confirmation-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 class="confirmation-title">Order Confirmed!</h2>
+        <p class="confirmation-subtitle">
+          Thank you for your purchase. Your order has been received and is being
+          processed. You'll receive a confirmation email shortly with all the
+          details.
+        </p>
+        <div class="confirmation-details">
+          <div class="confirmation-detail">
+            <span class="detail-label">Order Number:</span>
+            <span class="detail-value" id="confirmationOrderId">FZ-123456</span>
+          </div>
+          <div class="confirmation-detail">
+            <span class="detail-label">Date:</span>
+            <span class="detail-value" id="confirmationDate"
+              >June 24, 2025</span
+            >
+          </div>
+          <div class="confirmation-detail">
+            <span class="detail-label">Total:</span>
+            <span class="detail-value" id="confirmationTotal">$0.00</span>
+          </div>
+          <div class="confirmation-detail">
+            <span class="detail-label">Payment Method:</span>
+            <span class="detail-value">Cryptocurrency (USDT)</span>
+          </div>
+        </div>
+        <div class="confirmation-actions">
+          <button
+            class="confirmation-btn continue-shopping-btn"
+            id="continueShoppingBtn"
+          >
+            Continue Shopping
+          </button>
+          <button class="confirmation-btn view-order-btn" id="viewOrderBtn">
+            View Order
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div class="status-message" id="statusMessage">
+      <i class="fas fa-check-circle status-icon"></i>
+      <div class="status-text">
+        <h4 id="statusTitle">Success!</h4>
+        <p id="statusDescription">Operation completed successfully</p>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBNtrsRJoq82G4vSJnNLtcuIgGNMQu7dsw",
+        authDomain: "ecommerce-79bf2.firebaseapp.com",
+        databaseURL: "https://ecommerce-79bf2-default-rtdb.firebaseio.com/",
+        projectId: "ecommerce-79bf2",
+        storageBucket: "ecommerce-79bf2.appspot.com",
+        messagingSenderId: "420163739618",
+        appId: "1:420163739618:android:45d0da5b4acf0fff9663bb",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      const auth = firebase.auth();
+
+      // Global variables
+      let cart = JSON.parse(localStorage.getItem("fetishZoneCart")) || [];
+      let currentUser = null;
+      let orderTotal = 0;
+
+      // Exchange rates (you would normally fetch these from an API)
+      const CRYPTO_RATES = {
+        USDT: 1.0, // 1 USDT = 1 USD
+        ETH: 3500, // 1 ETH = 3500 USD (example rate)
+      };
+
+      // DOM Elements
+      const loader = document.getElementById("loader");
+      const backBtn = document.getElementById("backBtn");
+      const placeOrderBtn = document.getElementById("placeOrderBtn");
+      const orderItems = document.getElementById("orderItems");
+      const subtotal = document.getElementById("subtotal");
+      const shipping = document.getElementById("shipping");
+      const tax = document.getElementById("tax");
+      const discount = document.getElementById("discount");
+      const grandTotal = document.getElementById("grandTotal");
+      const usdtAmount = document.getElementById("usdtAmount");
+      const ethAmount = document.getElementById("ethAmount");
+      const copyUsdtBtn = document.getElementById("copyUsdtBtn");
+      const copyEthBtn = document.getElementById("copyEthBtn");
+      const cryptoWallets = document.getElementById("cryptoWallets");
+      const confirmationModal = document.getElementById("confirmationModal");
+      const confirmationOrderId = document.getElementById(
+        "confirmationOrderId"
+      );
+      const confirmationDate = document.getElementById("confirmationDate");
+      const confirmationTotal = document.getElementById("confirmationTotal");
+      const continueShoppingBtn = document.getElementById(
+        "continueShoppingBtn"
+      );
+      const viewOrderBtn = document.getElementById("viewOrderBtn");
+      const statusMessage = document.getElementById("statusMessage");
+      const statusTitle = document.getElementById("statusTitle");
+      const statusDescription = document.getElementById("statusDescription");
+
+      // Initialize the application
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeApp();
+      });
+
+      async function initializeApp() {
+        // Hide loader after 2 seconds
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 2000);
+
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+          currentUser = user;
+          if (!user) {
+            // Redirect to login if not authenticated
+            window.location.href = "/signup/";
+          }
+        });
+
+        // Show crypto wallets by default
+        cryptoWallets.style.display = "block";
+
+        // Load cart items
+        loadCartItems();
+
+        // Calculate order totals
+        calculateTotals();
+
+        // Setup event listeners
+        setupEventListeners();
+      }
+
+      function setupEventListeners() {
+        // Back button
+        backBtn.addEventListener("click", () => {
+          window.location.href = "/dashboard/";
+        });
+
+        // Copy buttons
+        copyUsdtBtn.addEventListener("click", () => copyAddress("usdtAddress"));
+        copyEthBtn.addEventListener("click", () => copyAddress("ethAddress"));
+
+        // Place order button
+        placeOrderBtn.addEventListener("click", placeOrder);
+
+        // Form validation
+        const formInputs = document.querySelectorAll(
+          ".form-input, .form-select"
+        );
+        formInputs.forEach((input) => {
+          input.addEventListener("input", validateForm);
+        });
+
+        // Confirmation modal buttons
+        continueShoppingBtn.addEventListener("click", () => {
+          window.location.href = "/dashboard/";
+        });
+
+        viewOrderBtn.addEventListener("click", () => {
+          // this would redirect to the order details page
+          showStatus("success", "Order Details", "Successful");
+          confirmationModal.classList.remove("active");
+        });
+      }
+
+      // Load cart items
+      function loadCartItems() {
+        if (cart.length === 0) {
+          orderItems.innerHTML = `
+            <div class="empty-state" style="padding: 2rem 0;">
+              <i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--light);">Your cart is empty</h3>
+              <p style="color: var(--gray);">Add some products to get started!</p>
+            </div>
+          `;
+          return;
+        }
+
+        orderItems.innerHTML = "";
+        cart.forEach((item) => {
+          const orderItem = document.createElement("div");
+          orderItem.className = "order-item animate-fade-in";
+          orderItem.innerHTML = `
+            <img src="${item.image}" alt="${
+            item.title
+          }" class="order-item-image"
+                 onerror="this.src='https://via.placeholder.com/80x80?text=No+Image'">
+            <div class="order-item-details">
+              <h3 class="order-item-title">${item.title}</h3>
+              <div class="order-item-price">$${item.price.toFixed(2)}</div>
+              <div class="order-item-quantity">Qty: ${item.quantity}</div>
+            </div>
+          `;
+          orderItems.appendChild(orderItem);
+        });
+      }
+
+      // Calculate order totals
+      function calculateTotals() {
+        if (cart.length === 0) return;
+
+        // Calculate subtotal
+        const subtotalValue = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+
+        // Calculate shipping (free for orders over $100, otherwise $10)
+        const shippingValue = subtotalValue > 100 ? 0 : 10;
+
+        // Calculate tax (10% of subtotal)
+        const taxValue = subtotalValue * 0.1;
+
+        // Calculate discount (10% for demo purposes)
+        const discountValue = subtotalValue * 0.1;
+
+        // Calculate grand total
+        const grandTotalValue =
+          subtotalValue + shippingValue + taxValue - discountValue;
+        orderTotal = grandTotalValue;
+
+        // Update DOM
+        subtotal.textContent = `$${subtotalValue.toFixed(2)}`;
+        shipping.textContent =
+          shippingValue === 0 ? "FREE" : `$${shippingValue.toFixed(2)}`;
+        tax.textContent = `$${taxValue.toFixed(2)}`;
+        discount.textContent = `-$${discountValue.toFixed(2)}`;
+        grandTotal.textContent = `$${grandTotalValue.toFixed(2)}`;
+
+        // Update crypto amounts
+        usdtAmount.textContent = `${grandTotalValue.toFixed(2)} USDT`;
+        ethAmount.textContent = `${(grandTotalValue / CRYPTO_RATES.ETH).toFixed(
+          6
+        )} ETH`;
+      }
+
+      // Copy wallet address
+      function copyAddress(elementId) {
+        const address = document.getElementById(elementId).textContent;
+        navigator.clipboard
+          .writeText(address)
+          .then(() => {
+            showStatus(
+              "success",
+              "Copied!",
+              "Wallet address copied to clipboard."
+            );
+          })
+          .catch(() => {
+            showStatus(
+              "error",
+              "Copy Failed",
+              "Failed to copy wallet address."
+            );
+          });
+      }
+
+      // Validate form
+      function validateForm() {
+        const requiredFields = [
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "address",
+          "city",
+          "state",
+          "postalCode",
+          "country",
+          "transactionHash",
+        ];
+
+        let isValid = true;
+
+        requiredFields.forEach((fieldId) => {
+          const field = document.getElementById(fieldId);
+          if (!field.value.trim()) {
+            isValid = false;
+          }
+        });
+
+        // Validate email format
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          isValid = false;
+        }
+
+        // Enable/disable place order button
+        placeOrderBtn.disabled = !isValid || cart.length === 0;
+
+        return isValid;
+      }
+
+      // Place order
+      async function placeOrder() {
+        if (!validateForm()) {
+          showStatus(
+            "error",
+            "Form Error",
+            "Please fill in all required fields correctly."
+          );
+          return;
+        }
+
+        if (cart.length === 0) {
+          showStatus(
+            "error",
+            "Empty Cart",
+            "Your cart is empty. Add some products first."
+          );
+          return;
+        }
+
+        // Show loading state
+        const originalText = placeOrderBtn.innerHTML;
+        placeOrderBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        placeOrderBtn.disabled = true;
+
+        try {
+          // Collect shipping information
+          const shippingInfo = {
+            firstName: document.getElementById("firstName").value.trim(),
+            lastName: document.getElementById("lastName").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            address: document.getElementById("address").value.trim(),
+            city: document.getElementById("city").value.trim(),
+            state: document.getElementById("state").value.trim(),
+            postalCode: document.getElementById("postalCode").value.trim(),
+            country: document.getElementById("country").value,
+            instructions: document.getElementById("instructions").value.trim(),
+          };
+
+          // Payment information
+          const paymentInfo = {
+            method: "crypto",
+            currency: "USDT",
+            amount: orderTotal,
+            transactionHash: document
+              .getElementById("transactionHash")
+              .value.trim(),
+            walletAddress: document.getElementById("usdtAddress").textContent,
+          };
+
+          // Create order data
+          const orderData = {
+            orderId: generateOrderId(),
+            userId: currentUser ? currentUser.uid : "guest",
+            items: cart.map((item) => ({
+              productId: item.id,
+              title: item.title,
+              price: item.price,
+              quantity: item.quantity,
+              image: item.image,
+            })),
+            shippingInfo: shippingInfo,
+            paymentInfo: paymentInfo,
+            subtotal: parseFloat(subtotal.textContent.replace("$", "")),
+            shipping:
+              shipping.textContent === "FREE"
+                ? 0
+                : parseFloat(shipping.textContent.replace("$", "")),
+            tax: parseFloat(tax.textContent.replace("$", "")),
+            discount: parseFloat(discount.textContent.replace("-$", "")),
+            total: orderTotal,
+            status: "pending",
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+          };
+
+          // Save to Firebase
+          await database.ref("orders").push(orderData);
+
+          // Clear cart
+          cart = [];
+          localStorage.removeItem("fetishZoneCart");
+
+          // Show confirmation modal
+          showConfirmation(orderData);
+        } catch (error) {
+          console.error("Error placing order:", error);
+          showStatus(
+            "error",
+            "Order Failed",
+            "Failed to place order. Please try again."
+          );
+        } finally {
+          // Reset button
+          placeOrderBtn.innerHTML = originalText;
+          placeOrderBtn.disabled = false;
+        }
+      }
+
+      // Show confirmation modal
+      function showConfirmation(orderData) {
+        confirmationOrderId.textContent = orderData.orderId;
+        confirmationDate.textContent = new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        confirmationTotal.textContent = `$${orderData.total.toFixed(2)}`;
+        confirmationModal.classList.add("active");
+      }
+
+      // Generate order ID
+      function generateOrderId() {
+        return (
+          "FZ" +
+          Date.now() +
+          Math.random().toString(36).substr(2, 5).toUpperCase()
+        );
+      }
+
+      // Show status message
+      function showStatus(type, title, description) {
+        statusTitle.textContent = title;
+        statusDescription.textContent = description;
+
+        statusMessage.className = `status-message ${
+          type === "error" ? "error" : ""
+        }`;
+        statusMessage.classList.add("show");
+
+        setTimeout(() => {
+          statusMessage.classList.remove("show");
+        }, 4000);
+      }
+    </script>
+  </body>
+</html>
