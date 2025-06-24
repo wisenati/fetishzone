@@ -3095,46 +3095,73 @@
         });
       }
 
-      // Add scroll to top button
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+      // dude this a a floating fab stuff
+
       window.addEventListener("scroll", () => {
         const scrollButton = document.getElementById("scrollToTop");
+        const cartCount = document.getElementById("cartCount"); // Get the main cart count element
+
         if (window.pageYOffset > 300) {
           if (!scrollButton) {
+            // Create the button
             const button = document.createElement("button");
             button.id = "scrollToTop";
-            button.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+            button.className = "cart-btn"; // Use the same class as your main cart button
+            button.innerHTML = `
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">${
+                  cartCount ? cartCount.textContent : "0"
+                }</span>
+            `;
 
-            // Redirect on click
             button.addEventListener("click", function () {
               window.location.href = "/cart/";
             });
 
             button.style.cssText = `
-                      position: fixed;
-                      bottom: 30px;
-                      right: 30px;
-                      width: 50px;
-                      height: 50px;
-                      background: linear-gradient(135deg, var(--primary), var(--secondary));
-                      color: white;
-                      border: none;
-                      border-radius: 50%;
-                      cursor: pointer;
-                      z-index: 1000;
-                      transition: var(--transition);
-                      box-shadow: var(--shadow);
-                  `;
-            button.addEventListener("click", scrollToTop);
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                z-index: 1000;
+                transition: var(--transition);
+                box-shadow: var(--shadow);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+                gap: 4px;
+            `;
+
             button.addEventListener("mouseenter", () => {
               button.style.transform = "translateY(-5px) scale(1.1)";
             });
             button.addEventListener("mouseleave", () => {
               button.style.transform = "translateY(0) scale(1)";
             });
+
             document.body.appendChild(button);
+          } else if (scrollButton) {
+            // Update the count if button already exists
+            const mobileCount = scrollButton.querySelector(".cart-count");
+            if (mobileCount && cartCount) {
+              mobileCount.textContent = cartCount.textContent;
+            }
           }
         } else {
-          const scrollButton = document.getElementById("scrollToTop");
           if (scrollButton) {
             scrollButton.remove();
           }
