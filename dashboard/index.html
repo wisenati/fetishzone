@@ -3102,7 +3102,13 @@
           if (!scrollButton) {
             const button = document.createElement("button");
             button.id = "scrollToTop";
-            button.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            button.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+
+            // Redirect on click
+            button.addEventListener("click", function () {
+              window.location.href = "/cart/";
+            });
+
             button.style.cssText = `
                       position: fixed;
                       bottom: 30px;
