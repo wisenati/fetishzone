@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetish Zone | Customer Support</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Animate.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --secondary: #f43f5e;
+        --accent: #06b6d4;
+        --dark: #1e293b;
+        --darker: #0f172a;
+        --light: #f8fafc;
+        --gray: #94a3b8;
+        --gray-light: #cbd5e1;
+        --gold: #f59e0b;
+        --success: #10b981;
+        --error: #ef4444;
+        --warning: #f59e0b;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--darker);
+        color: var(--light);
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-image: radial-gradient(
+            at 80% 0%,
+            hsla(189, 100%, 56%, 0.1) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 0% 50%,
+            hsla(355, 100%, 93%, 0.1) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 80% 100%,
+            hsla(260, 100%, 70%, 0.1) 0px,
+            transparent 50%
+          );
+      }
+
+      /* Luxury Loader */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      }
+
+      .loader-container.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        margin-bottom: 2rem;
+      }
+
+      .loader-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid transparent;
+        border-radius: 50%;
+        animation: spin 2s linear infinite;
+      }
+
+      .loader-ring:nth-child(1) {
+        border-top-color: var(--primary);
+        animation-delay: 0s;
+      }
+
+      .loader-ring:nth-child(2) {
+        border-right-color: var(--secondary);
+        animation-delay: 0.3s;
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+      }
+
+      .loader-ring:nth-child(3) {
+        border-bottom-color: var(--gold);
+        animation-delay: 0.6s;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 2rem;
+        animation: pulse 2s infinite;
+        filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+      }
+
+      .loader-text {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--primary),
+          var(--secondary),
+          var(--gold)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      .loader-subtitle {
+        margin-top: 1rem;
+        color: var(--gray);
+        font-size: 1rem;
+        letter-spacing: 1px;
+        animation: fadeInOut 2s infinite;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: var(--transition);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        transform: rotate(15deg) scale(1.1);
+      }
+
+      .brand-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .search-container {
+        position: relative;
+        width: 300px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 20px 12px 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        color: var(--light);
+        font-size: 0.9rem;
+        transition: var(--transition);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        font-size: 1.1rem;
+      }
+
+      .cart-btn,
+      .user-btn,
+      .menu-btn {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--light);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1.1rem;
+      }
+
+      .cart-btn:hover,
+      .user-btn:hover,
+      .menu-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-5px);
+        }
+        60% {
+          transform: translateY(-3px);
+        }
+      }
+
+      /* Mobile Menu Button */
+      .menu-btn {
+        display: none;
+      }
+
+      /* Main Container */
+      .main-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.5s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Chat Container */
+      .chat-container {
+        display: flex;
+        height: calc(100vh - 180px);
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow);
+      }
+
+      /* Chat Sidebar */
+      .chat-sidebar {
+        width: 300px;
+        background: rgba(15, 23, 42, 0.8);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition);
+      }
+
+      .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--light);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .new-chat-btn {
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .new-chat-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      }
+
+      .conversation-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+      }
+
+      .conversation-item {
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .conversation-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .conversation-item.active {
+        background: rgba(139, 92, 246, 0.2);
+        border-left: 3px solid var(--primary);
+      }
+
+      .conversation-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .conversation-details {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .conversation-name {
+        font-weight: 600;
+        color: var(--light);
+        margin-bottom: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .conversation-preview {
+        font-size: 0.8rem;
+        color: var(--gray);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .conversation-time {
+        font-size: 0.7rem;
+        color: var(--gray-light);
+      }
+
+      .conversation-unread {
+        background: var(--secondary);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Chat Main Area */
+      .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chat-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .chat-header-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+
+      .chat-header-info {
+        flex: 1;
+      }
+
+      .chat-header-name {
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .chat-header-status {
+        font-size: 0.8rem;
+        color: var(--gray);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+      }
+
+      .chat-header-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .chat-action-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: var(--light);
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chat-action-btn:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      /* Messages Area */
+      .messages-container {
+        flex: 1;
+        padding: 1.5rem;
+        overflow-y: auto;
+        background: rgba(15, 23, 42, 0.4);
+      }
+
+      .message-date {
+        text-align: center;
+        margin: 1rem 0;
+        position: relative;
+      }
+
+      .date-label {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--gray);
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+      }
+
+      .date-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 0;
+      }
+
+      .message {
+        display: flex;
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.received {
+        justify-content: flex-start;
+      }
+
+      .message.sent {
+        justify-content: flex-end;
+      }
+
+      .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--light);
+        font-weight: 600;
+        flex-shrink: 0;
+        margin-right: 1rem;
+      }
+
+      .message.sent .message-avatar {
+        display: none;
+      }
+
+      .message-content {
+        max-width: 70%;
+      }
+
+      .message.sent .message-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .message-bubble {
+        padding: 12px 16px;
+        border-radius: 18px;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .message.received .message-bubble {
+        background: rgba(255, 255, 255, 0.1);
+        border-top-left-radius: 4px;
+      }
+
+      .message.sent .message-bubble {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-top-right-radius: 4px;
+      }
+
+      .message-text {
+        line-height: 1.5;
+      }
+
+      .message-time {
+        font-size: 0.7rem;
+        color: var(--gray-light);
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .message.sent .message-time {
+        justify-content: flex-end;
+      }
+
+      .message-status {
+        font-size: 0.6rem;
+      }
+
+      /* Message Input */
+      .message-input-container {
+        padding: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.8);
+      }
+
+      .message-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .message-input {
+        flex: 1;
+        padding: 14px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        color: var(--light);
+        font-size: 0.95rem;
+        transition: var(--transition);
+        resize: none;
+        max-height: 120px;
+      }
+
+      .message-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+      }
+
+      .send-btn {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .send-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      }
+
+      .send-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      .attachment-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: var(--light);
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .attachment-btn:hover {
+        background: var(--primary);
+      }
+
+      /* Product Selection Modal */
+      .product-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .product-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .product-modal-container {
+        background: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 2rem;
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transform: scale(0.9);
+        transition: var(--transition);
+      }
+
+      .product-modal.active .product-modal-container {
+        transform: scale(1);
+      }
+
+      .product-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .product-modal-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .close-product-modal {
+        background: none;
+        border: none;
+        color: var(--gray);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .close-product-modal:hover {
+        color: var(--light);
+        transform: rotate(90deg);
+      }
+
+      .product-search {
+        width: 100%;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+      }
+
+      .product-search:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+      }
+
+      .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .product-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        border: 1px solid transparent;
+      }
+
+      .product-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .product-item-image {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+      }
+
+      .product-item-name {
+        font-weight: 600;
+        color: var(--light);
+        margin-bottom: 0.25rem;
+      }
+
+      .product-item-price {
+        color: var(--gold);
+        font-weight: 600;
+      }
+
+      .select-product-btn {
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 1.5rem;
+      }
+
+      .select-product-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--gray);
+      }
+
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      .empty-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--light);
+      }
+
+      .empty-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      /* Status Messages */
+      .status-message {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, var(--success), #059669);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-lg);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        z-index: 4000;
+        transform: translateX(150%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        max-width: 350px;
+      }
+
+      .status-message.show {
+        transform: translateX(0);
+      }
+
+      .status-message.error {
+        background: linear-gradient(135deg, var(--error), #dc2626);
+      }
+
+      .status-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .status-text h4 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .status-text p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .main-container {
+          padding: 1.5rem;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .chat-sidebar {
+          width: 250px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          padding: 0 1rem;
+        }
+
+        .search-container {
+          display: none;
+        }
+
+        .menu-btn {
+          display: flex;
+        }
+
+        .main-container {
+          padding: 1rem;
+        }
+
+        .chat-container {
+          height: calc(100vh - 150px);
+        }
+
+        .chat-sidebar {
+          position: absolute;
+          left: -100%;
+          top: 0;
+          bottom: 0;
+          z-index: 2000;
+          width: 80%;
+          max-width: 350px;
+        }
+
+        .chat-sidebar.active {
+          left: 0;
+        }
+
+        .sidebar-toggle {
+          display: flex;
+        }
+
+        .product-list {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+
+      @media (max-width: 576px) {
+        .message-content {
+          max-width: 85%;
+        }
+
+        .message-input-wrapper {
+          gap: 0.5rem;
+        }
+
+        .attachment-btn,
+        .send-btn {
+          width: 45px;
+          height: 45px;
+        }
+
+        .product-list {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--secondary)
+        );
+      }
+
+      /* Animations */
+      .animate-fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .animate-slide-up {
+        animation: slideUp 0.6s ease-out;
+      }
+
+      .animate-bounce {
+        animation: bounce 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Mobile Menu Drawer */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 2000;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+      }
+
+      .mobile-menu.open {
+        left: 0;
+      }
+
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-menu-items {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .mobile-menu-item {
+        color: var(--light);
+        text-decoration: none;
+        padding: 1rem;
+        border-radius: 10px;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .mobile-menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--primary);
+      }
+
+      /* Sidebar Toggle */
+      .sidebar-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--light);
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin-right: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar-toggle {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Luxury Loader -->
+    <div class="loader-container" id="loader">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+        alt="Fetish Zone Logo"
+        class="loader-logo"
+      />
+      <div class="loader-text">Fetish Zone</div>
+      <div class="loader-subtitle">Customer Support</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-container">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+            alt="Fetish Zone Logo"
+            class="logo"
+          />
+          <h1 class="brand-name">Fetish Zone</h1>
+        </div>
+
+        <div class="header-actions">
+          <button class="cart-btn" id="cartBtn">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+
+          <button class="user-btn" id="userBtn">
+            <i class="fas fa-user"></i>
+          </button>
+
+          <button class="menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <h3>Menu</h3>
+        <button class="modal-close" id="closeMobileMenu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="mobile-menu-items">
+        <a href="/" class="mobile-menu-item">
+          <i class="fas fa-home"></i>
+          Home
+        </a>
+        <a href="/cart/" class="mobile-menu-item">
+          <i class="fas fa-shopping-cart"></i>
+          Cart (<span id="mobileCartCount">0</span>)
+        </a>
+        <a href="/profile/" class="mobile-menu-item">
+          <i class="fas fa-user"></i>
+          Profile
+        </a>
+        <a href="/wishlist/" class="mobile-menu-item">
+          <i class="fas fa-heart"></i>
+          Wishlist
+        </a>
+        <a href="/orderhistory/" class="mobile-menu-item">
+          <i class="fas fa-history"></i>
+          Order History
+        </a>
+        <a href="/login/" class="mobile-menu-item">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <h1 class="section-title" style="margin-bottom: 1.5rem">
+        <i class="fas fa-headset"></i>
+        Customer Support
+      </h1>
+
+      <div class="chat-container">
+        <!-- Chat Sidebar -->
+        <div class="chat-sidebar" id="chatSidebar">
+          <div class="sidebar-header">
+            <h2 class="sidebar-title">
+              <i class="fas fa-comments"></i>
+              Conversations
+            </h2>
+            <button class="new-chat-btn" id="newChatBtn">
+              <i class="fas fa-plus"></i>
+              New Chat
+            </button>
+          </div>
+
+          <div class="conversation-list" id="conversationList">
+            <div class="empty-state">
+              <i class="fas fa-comment-slash empty-icon"></i>
+              <h3 class="empty-title">No conversations</h3>
+              <p class="empty-description">
+                Start a new chat with our support team
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Main Area -->
+        <div class="chat-main">
+          <div class="chat-header">
+            <button class="sidebar-toggle" id="sidebarToggle">
+              <i class="fas fa-bars"></i>
+            </button>
+            <div class="chat-header-avatar">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="chat-header-info">
+              <div class="chat-header-name">Fetish Zone Support</div>
+              <div class="chat-header-status">
+                <span class="status-indicator"></span>
+                <span>Online</span>
+              </div>
+            </div>
+            <div class="chat-header-actions">
+              <!-- <button class="chat-action-btn" title="Product Help">
+                <i class="fas fa-gift"></i>
+              </button>
+              <button class="chat-action-btn" title="Order Help">
+                <i class="fas fa-box"></i>
+              </button>
+              <button class="chat-action-btn" title="Delivery Help">
+                <i class="fas fa-truck"></i>
+              </button> -->
+            </div>
+          </div>
+
+          <div class="messages-container" id="messagesContainer">
+            <div class="empty-state">
+              <i class="fas fa-comment-dots empty-icon"></i>
+              <h3 class="empty-title">Start a conversation</h3>
+              <p class="empty-description">
+                Select a chat or start a new conversation with our support team
+              </p>
+            </div>
+          </div>
+
+          <div class="message-input-container">
+            <div class="message-input-wrapper">
+              <button class="attachment-btn" id="attachmentBtn">
+                <i class="fas fa-paperclip"></i>
+              </button>
+              <textarea
+                class="message-input"
+                id="messageInput"
+                placeholder="Type your message..."
+                rows="1"
+              ></textarea>
+              <button class="send-btn" id="sendBtn" disabled>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Selection Modal -->
+    <div class="product-modal" id="productModal">
+      <div class="product-modal-container">
+        <div class="product-modal-header">
+          <h3 class="product-modal-title">
+            <i class="fas fa-gift"></i>
+            Select a Product
+          </h3>
+          <button class="close-product-modal" id="closeProductModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <input
+          type="text"
+          class="product-search"
+          id="productSearch"
+          placeholder="Search products..."
+        />
+
+        <div class="product-list" id="productList">
+          <!-- Products will be loaded here -->
+          <div class="empty-state">
+            <div class="loading-spinner"></div>
+            <h3 class="empty-title">Loading Products...</h3>
+            <p class="empty-description">
+              Please wait while we fetch our product catalog.
+            </p>
+          </div>
+        </div>
+
+        <button class="select-product-btn" id="selectProductBtn" disabled>
+          <i class="fas fa-check"></i>
+          Select Product
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div class="status-message" id="statusMessage">
+      <i class="fas fa-check-circle status-icon"></i>
+      <div class="status-text">
+        <h4 id="statusTitle">Success!</h4>
+        <p id="statusDescription">Operation completed successfully</p>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBNtrsRJoq82G4vSJnNLtcuIgGNMQu7dsw",
+        authDomain: "ecommerce-79bf2.firebaseapp.com",
+        databaseURL: "https://ecommerce-79bf2-default-rtdb.firebaseio.com/",
+        projectId: "ecommerce-79bf2",
+        storageBucket: "ecommerce-79bf2.appspot.com",
+        messagingSenderId: "420163739618",
+        appId: "1:420163739618:android:45d0da5b4acf0fff9663bb",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      const auth = firebase.auth();
+
+      // Global variables
+      let currentUser = null;
+      let currentChatId = null;
+      let products = [];
+      let selectedProductId = null;
+      let conversations = [];
+      let messages = [];
+
+      // DOM Elements
+      const loader = document.getElementById("loader");
+      const messagesContainer = document.getElementById("messagesContainer");
+      const messageInput = document.getElementById("messageInput");
+      const sendBtn = document.getElementById("sendBtn");
+      const attachmentBtn = document.getElementById("attachmentBtn");
+      const newChatBtn = document.getElementById("newChatBtn");
+      const conversationList = document.getElementById("conversationList");
+      const productModal = document.getElementById("productModal");
+      const closeProductModal = document.getElementById("closeProductModal");
+      const productList = document.getElementById("productList");
+      const productSearch = document.getElementById("productSearch");
+      const selectProductBtn = document.getElementById("selectProductBtn");
+      const statusMessage = document.getElementById("statusMessage");
+      const statusTitle = document.getElementById("statusTitle");
+      const statusDescription = document.getElementById("statusDescription");
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const closeMobileMenu = document.getElementById("closeMobileMenu");
+      const chatSidebar = document.getElementById("chatSidebar");
+      const sidebarToggle = document.getElementById("sidebarToggle");
+
+      // Initialize the application
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeApp();
+      });
+
+      async function initializeApp() {
+        // Hide loader after 2 seconds
+        setTimeout(() => {
+          loader.classList.add("hidden");
+        }, 2000);
+
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            loadConversations();
+            loadProducts();
+          } else {
+            // Redirect to login if not authenticated
+            window.location.href = "/login/";
+          }
+        });
+
+        // Setup event listeners
+        setupEventListeners();
+      }
+
+      function setupEventListeners() {
+        // Message input
+        messageInput.addEventListener("input", () => {
+          sendBtn.disabled = messageInput.value.trim() === "";
+        });
+
+        messageInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            if (!sendBtn.disabled) {
+              sendMessage();
+            }
+          }
+        });
+
+        // Send message
+        sendBtn.addEventListener("click", sendMessage);
+
+        // New chat
+        newChatBtn.addEventListener("click", startNewChat);
+
+        // Attachment button
+        attachmentBtn.addEventListener("click", () => {
+          if (currentChatId) {
+            openProductModal();
+          } else {
+            showStatus(
+              "error",
+              "No Active Chat",
+              "Please start a conversation first"
+            );
+          }
+        });
+
+        // Product modal
+        closeProductModal.addEventListener("click", () => {
+          productModal.classList.remove("active");
+        });
+
+        // Product search
+        productSearch.addEventListener("input", filterProducts);
+
+        // Select product
+        selectProductBtn.addEventListener("click", () => {
+          if (selectedProductId) {
+            const product = products.find((p) => p.id === selectedProductId);
+            if (product) {
+              sendProductMessage(product);
+              productModal.classList.remove("active");
+            }
+          }
+        });
+
+        // Mobile menu
+        menuBtn.addEventListener("click", toggleMobileMenu);
+        closeMobileMenu.addEventListener("click", toggleMobileMenu);
+
+        // Sidebar toggle
+        sidebarToggle.addEventListener("click", toggleSidebar);
+
+        // Close modals on escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            if (productModal.classList.contains("active")) {
+              productModal.classList.remove("active");
+            }
+            if (mobileMenu.classList.contains("open")) {
+              toggleMobileMenu();
+            }
+          }
+        });
+      }
+
+      // Toggle mobile menu
+      function toggleMobileMenu() {
+        mobileMenu.classList.toggle("open");
+      }
+
+      // Toggle sidebar
+      function toggleSidebar() {
+        chatSidebar.classList.toggle("active");
+      }
+
+      // Load conversations from Firebase
+      function loadConversations() {
+        if (!currentUser) return;
+
+        database
+          .ref(`userConversations/${currentUser.uid}`)
+          .on("value", (snapshot) => {
+            conversations = [];
+            conversationList.innerHTML = "";
+
+            if (!snapshot.exists()) {
+              conversationList.innerHTML = `
+                <div class="empty-state">
+                  <i class="fas fa-comment-slash empty-icon"></i>
+                  <h3 class="empty-title">No conversations</h3>
+                  <p class="empty-description">
+                    Start a new chat with our support team
+                  </p>
+                </div>
+              `;
+              return;
+            }
+
+            snapshot.forEach((childSnapshot) => {
+              const conversation = {
+                id: childSnapshot.key,
+                ...childSnapshot.val(),
+              };
+              conversations.push(conversation);
+
+              const conversationItem = createConversationItem(conversation);
+              conversationList.appendChild(conversationItem);
+            });
+
+            // If there's no active chat, select the most recent conversation
+            if (!currentChatId && conversations.length > 0) {
+              selectConversation(conversations[0].id);
+            }
+          });
+      }
+
+      // Create conversation list item
+      function createConversationItem(conversation) {
+        const item = document.createElement("div");
+        item.className = `conversation-item ${
+          currentChatId === conversation.id ? "active" : ""
+        }`;
+        item.dataset.id = conversation.id;
+
+        // Format date
+        const date = new Date(conversation.lastMessageTime);
+        const timeString = date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        item.innerHTML = `
+          <div class="conversation-avatar">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div class="conversation-details">
+            <div class="conversation-name">Fetish Zone Support</div>
+            <div class="conversation-preview">${conversation.lastMessage}</div>
+          </div>
+          <div class="conversation-time">${timeString}</div>
+          ${
+            conversation.unreadCount > 0
+              ? `<div class="conversation-unread">${conversation.unreadCount}</div>`
+              : ""
+          }
+        `;
+
+        item.addEventListener("click", () => {
+          selectConversation(conversation.id);
+        });
+
+        return item;
+      }
+
+      // Select conversation
+      function selectConversation(conversationId) {
+        currentChatId = conversationId;
+        updateConversationSelection();
+        loadMessages(conversationId);
+
+        // Mark messages as read
+        if (currentUser) {
+          database
+            .ref(`userConversations/${currentUser.uid}/${conversationId}`)
+            .update({
+              unreadCount: 0,
+            });
+        }
+      }
+
+      // Update conversation selection UI
+      function updateConversationSelection() {
+        document.querySelectorAll(".conversation-item").forEach((item) => {
+          if (item.dataset.id === currentChatId) {
+            item.classList.add("active");
+          } else {
+            item.classList.remove("active");
+          }
+        });
+      }
+
+      // Start new chat
+      function startNewChat() {
+        if (currentChatId) {
+          // Just show the current chat
+          selectConversation(currentChatId);
+          return;
+        }
+
+        if (!currentUser) return;
+
+        // Create new conversation
+        const newConversationRef = database.ref("conversations").push();
+        const conversationId = newConversationRef.key;
+
+        const conversationData = {
+          userId: currentUser.uid,
+          userName: currentUser.displayName || "User",
+          userEmail: currentUser.email,
+          status: "open",
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          updatedAt: firebase.database.ServerValue.TIMESTAMP,
+          lastMessage: "Chat started",
+          lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
+        };
+
+        // Save to conversations and userConversations
+        Promise.all([
+          newConversationRef.set(conversationData),
+          database
+            .ref(`userConversations/${currentUser.uid}/${conversationId}`)
+            .set({
+              ...conversationData,
+              unreadCount: 0,
+            }),
+        ])
+          .then(() => {
+            currentChatId = conversationId;
+            loadMessages(conversationId);
+          })
+          .catch((error) => {
+            console.error("Error creating conversation:", error);
+            showStatus(
+              "error",
+              "Error",
+              "Failed to start new conversation. Please try again."
+            );
+          });
+      }
+
+      // Load messages for a conversation
+      function loadMessages(conversationId) {
+        messagesContainer.innerHTML = "";
+        messages = [];
+
+        database
+          .ref(`messages/${conversationId}`)
+          .orderByChild("timestamp")
+          .on("value", (snapshot) => {
+            messagesContainer.innerHTML = "";
+            messages = [];
+
+            if (!snapshot.exists()) {
+              messagesContainer.innerHTML = `
+                <div class="empty-state">
+                  <i class="fas fa-comment-dots empty-icon"></i>
+                  <h3 class="empty-title">No messages yet</h3>
+                  <p class="empty-description">
+                    Start the conversation with our support team
+                  </p>
+                </div>
+              `;
+              return;
+            }
+
+            let currentDate = null;
+
+            snapshot.forEach((childSnapshot) => {
+              const message = {
+                id: childSnapshot.key,
+                ...childSnapshot.val(),
+              };
+              messages.push(message);
+
+              // Group messages by date
+              const messageDate = new Date(message.timestamp);
+              const dateString = messageDate.toLocaleDateString([], {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+
+              if (dateString !== currentDate) {
+                currentDate = dateString;
+                const dateDiv = document.createElement("div");
+                dateDiv.className = "message-date";
+                dateDiv.innerHTML = `
+                  <div class="date-line"></div>
+                  <div class="date-label">${dateString}</div>
+                `;
+                messagesContainer.appendChild(dateDiv);
+              }
+
+              const messageDiv = createMessageElement(message);
+              messagesContainer.appendChild(messageDiv);
+            });
+
+            // Scroll to bottom
+            setTimeout(() => {
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+          });
+      }
+
+      // Create message element
+      function createMessageElement(message) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${
+          message.sender === "user" ? "sent" : "received"
+        } animate-fade-in`;
+
+        const messageDate = new Date(message.timestamp);
+        const timeString = messageDate.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        let messageContent = message.text;
+        if (message.productId) {
+          const product = products.find((p) => p.id === message.productId);
+          if (product) {
+            messageContent = `
+              <div style="margin-bottom: 0.5rem;">
+                <strong>Product Reference:</strong>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                  <img src="${product.mainImage}" alt="${
+              product.title
+            }" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                  <div>
+                    <div style="font-weight: 600;">${product.title}</div>
+                    <div style="color: var(--gold);">$${product.price.toFixed(
+                      2
+                    )}</div>
+                  </div>
+                </div>
+              </div>
+              ${message.text}
+            `;
+          }
+        }
+
+        messageDiv.innerHTML = `
+          <div class="message-avatar">
+            ${
+              message.sender === "user"
+                ? currentUser?.displayName?.charAt(0) || "U"
+                : "S"
+            }
+          </div>
+          <div class="message-content">
+            <div class="message-bubble">
+              <div class="message-text">${messageContent}</div>
+              <div class="message-time">
+                ${timeString}
+                ${
+                  message.sender === "user"
+                    ? '<i class="fas fa-check message-status"></i>'
+                    : ""
+                }
+              </div>
+            </div>
+          </div>
+        `;
+
+        return messageDiv;
+      }
+
+      // Send message
+      function sendMessage() {
+        if (!currentChatId || !currentUser) return;
+
+        const messageText = messageInput.value.trim();
+        if (!messageText) return;
+
+        // Create message object
+        const message = {
+          text: messageText,
+          sender: "user",
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+        };
+
+        // Save message to Firebase
+        database
+          .ref(`messages/${currentChatId}`)
+          .push(message)
+          .then(() => {
+            // Update conversation last message
+            updateConversationLastMessage(messageText);
+            messageInput.value = "";
+            sendBtn.disabled = true;
+          })
+          .catch((error) => {
+            console.error("Error sending message:", error);
+            showStatus(
+              "error",
+              "Error",
+              "Failed to send message. Please try again."
+            );
+          });
+      }
+
+      // Send product message
+      function sendProductMessage(product) {
+        if (!currentChatId || !currentUser) return;
+
+        const messageText = `I need help with this product: ${product.title}`;
+
+        // Create message object
+        const message = {
+          text: messageText,
+          sender: "user",
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          productId: product.id,
+        };
+
+        // Save message to Firebase
+        database
+          .ref(`messages/${currentChatId}`)
+          .push(message)
+          .then(() => {
+            // Update conversation last message
+            updateConversationLastMessage(messageText);
+          })
+          .catch((error) => {
+            console.error("Error sending product message:", error);
+            showStatus(
+              "error",
+              "Error",
+              "Failed to send product reference. Please try again."
+            );
+          });
+      }
+
+      // Update conversation last message
+      function updateConversationLastMessage(messageText) {
+        if (!currentChatId || !currentUser) return;
+
+        const updateData = {
+          lastMessage: messageText,
+          lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
+          updatedAt: firebase.database.ServerValue.TIMESTAMP,
+        };
+
+        // Update both conversations and userConversations
+        Promise.all([
+          database.ref(`conversations/${currentChatId}`).update(updateData),
+          database
+            .ref(`userConversations/${currentUser.uid}/${currentChatId}`)
+            .update(updateData),
+        ]).catch((error) => {
+          console.error("Error updating conversation:", error);
+        });
+      }
+
+      // Open product modal
+      function openProductModal() {
+        productModal.classList.add("active");
+      }
+
+      // Load products from Firebase
+      function loadProducts() {
+        database
+          .ref("products")
+          .once("value")
+          .then((snapshot) => {
+            products = [];
+            productList.innerHTML = "";
+
+            if (!snapshot.exists()) {
+              productList.innerHTML = `
+                <div class="empty-state">
+                  <i class="fas fa-box-open empty-icon"></i>
+                  <h3 class="empty-title">No products found</h3>
+                  <p class="empty-description">
+                    Our product catalog is currently empty
+                  </p>
+                </div>
+              `;
+              return;
+            }
+
+            snapshot.forEach((childSnapshot) => {
+              const product = {
+                id: childSnapshot.key,
+                ...childSnapshot.val(),
+              };
+              products.push(product);
+
+              const productItem = createProductItem(product);
+              productList.appendChild(productItem);
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading products:", error);
+            productList.innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-exclamation-circle empty-icon"></i>
+                <h3 class="empty-title">Error loading products</h3>
+                <p class="empty-description">
+                  Failed to load product catalog. Please try again later.
+                </p>
+              </div>
+            `;
+          });
+      }
+
+      // Create product item for selection
+      function createProductItem(product) {
+        const item = document.createElement("div");
+        item.className = "product-item";
+        item.dataset.id = product.id;
+
+        item.innerHTML = `
+          <img src="${product.mainImage}" alt="${
+          product.title
+        }" class="product-item-image" onerror="this.src='https://via.placeholder.com/250x150?text=No+Image'">
+          <div class="product-item-name">${product.title}</div>
+          <div class="product-item-price">$${product.price.toFixed(2)}</div>
+        `;
+
+        item.addEventListener("click", () => {
+          // Toggle selection
+          document
+            .querySelectorAll(".product-item")
+            .forEach((i) => i.classList.remove("selected"));
+          item.classList.add("selected");
+          selectedProductId = product.id;
+          selectProductBtn.disabled = false;
+        });
+
+        return item;
+      }
+
+      // Filter products
+      function filterProducts() {
+        const searchTerm = productSearch.value.toLowerCase();
+        const filtered = products.filter((product) =>
+          product.title.toLowerCase().includes(searchTerm)
+        );
+
+        productList.innerHTML = "";
+
+        if (filtered.length === 0) {
+          productList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-search empty-icon"></i>
+              <h3 class="empty-title">No products found</h3>
+              <p class="empty-description">
+                Try a different search term
+              </p>
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach((product) => {
+          const productItem = createProductItem(product);
+          productList.appendChild(productItem);
+        });
+      }
+
+      // Show status message
+      function showStatus(type, title, description) {
+        statusTitle.textContent = title;
+        statusDescription.textContent = description;
+
+        statusMessage.className = `status-message ${
+          type === "error" ? "error" : ""
+        }`;
+        statusMessage.classList.add("show");
+
+        setTimeout(() => {
+          statusMessage.classList.remove("show");
+        }, 4000);
+      }
+
+      // Listen for incoming messages
+      function listenForNewMessages() {
+        if (!currentChatId) return;
+
+        database
+          .ref(`messages/${currentChatId}`)
+          .orderByChild("timestamp")
+          .startAt(Date.now())
+          .on("child_added", (snapshot) => {
+            const message = snapshot.val();
+            if (message.sender !== "user") {
+              // Update unread count if chat is not active
+              if (
+                document.activeElement !== messageInput &&
+                currentChatId === snapshot.ref.parent.key
+              ) {
+                database
+                  .ref(`userConversations/${currentUser.uid}/${currentChatId}`)
+                  .update({
+                    unreadCount: firebase.database.ServerValue.increment(1),
+                  });
+              }
+
+              // Add message to UI
+              const messageDiv = createMessageElement({
+                id: snapshot.key,
+                ...message,
+              });
+              messagesContainer.appendChild(messageDiv);
+
+              // Scroll to bottom
+              setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              }, 100);
+            }
+          });
+      }
+
+      // Initialize message listener when conversation is selected
+      const originalSelectConversation = selectConversation;
+      selectConversation = function (conversationId) {
+        originalSelectConversation.call(this, conversationId);
+        listenForNewMessages();
+      };
+
+      // Auto-resize textarea
+      messageInput.addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+      });
+    </script>
+  </body>
+</html>
