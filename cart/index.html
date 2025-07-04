@@ -718,6 +718,7 @@
         padding: 1rem 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         transition: var(--transition);
+        position: relative;
       }
 
       .order-item:hover {
@@ -761,6 +762,33 @@
       .order-item-quantity {
         color: var(--gray);
         font-size: 0.8rem;
+      }
+
+      .remove-item-btn {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        background: rgba(36, 1, 1, 0.2);
+        border: none;
+        color: var(--error);
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        opacity: 0;
+      }
+
+      .order-item:hover .remove-item-btn {
+        opacity: 1;
+      }
+
+      .remove-item-btn:hover {
+        background: rgba(40, 1, 1, 0.4);
+        transform: scale(1.1);
       }
 
       .order-totals {
@@ -1196,6 +1224,22 @@
         .section-title {
           font-size: 1.3rem;
         }
+
+        .order-item {
+          padding: 0.8rem 0;
+        }
+
+        .order-item-image {
+          width: 60px;
+          height: 60px;
+        }
+
+        .remove-item-btn {
+          opacity: 1;
+          width: 20px;
+          height: 20px;
+          font-size: 0.7rem;
+        }
       }
 
       @media (max-width: 480px) {
@@ -1217,6 +1261,22 @@
 
         .help-title {
           font-size: 1.5rem;
+        }
+
+        .order-item {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .order-item-image {
+          width: 100%;
+          height: auto;
+          max-height: 150px;
+        }
+
+        .remove-item-btn {
+          top: 15px;
+          right: 5px;
         }
       }
 
@@ -1844,7 +1904,7 @@
         }
 
         orderItems.innerHTML = "";
-        cart.forEach((item) => {
+        cart.forEach((item, index) => {
           const orderItem = document.createElement("div");
           orderItem.className = "order-item animate-fade-in";
           orderItem.innerHTML = `
@@ -1857,14 +1917,56 @@
               <div class="order-item-price">$${item.price.toFixed(2)}</div>
               <div class="order-item-quantity">Qty: ${item.quantity}</div>
             </div>
+            <button class="remove-item-btn" data-index="${index}">
+              <i class="fas fa-times"></i>
+            </button>
           `;
           orderItems.appendChild(orderItem);
         });
+
+        // Add event listeners to remove buttons
+        document.querySelectorAll(".remove-item-btn").forEach((button) => {
+          button.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const index = parseInt(button.getAttribute("data-index"));
+            removeItemFromCart(index);
+          });
+        });
+      }
+
+      // Remove item from cart
+      function removeItemFromCart(index) {
+        if (index >= 0 && index < cart.length) {
+          // Animation for removal
+          const itemToRemove = document.querySelector(
+            `.remove-item-btn[data-index="${index}"]`
+          ).parentElement;
+          itemToRemove.style.transform = "translateX(-100%)";
+          itemToRemove.style.opacity = "0";
+          itemToRemove.style.transition = "all 0.4s ease";
+
+          setTimeout(() => {
+            cart.splice(index, 1);
+            localStorage.setItem("fetishZoneCart", JSON.stringify(cart));
+            loadCartItems();
+            calculateTotals();
+            validateForm();
+
+            showStatus(
+              "success",
+              "Item Removed",
+              "The item has been removed from your cart"
+            );
+          }, 400);
+        }
       }
 
       // Calculate order totals
       function calculateTotals() {
-        if (cart.length === 0) return;
+        if (cart.length === 0) {
+          loadCartItems(); // Refresh empty state
+          return;
+        }
 
         // Calculate subtotal
         const subtotalValue = cart.reduce(
