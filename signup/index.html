@@ -187,7 +187,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem; /* Reduced margin */
         position: relative;
       }
 
@@ -259,6 +259,7 @@
         flex: 1;
         min-width: 300px;
         position: relative;
+        margin-bottom: 1rem; /* Added margin */
       }
 
       .hero-title {
@@ -683,13 +684,19 @@
         font-size: 1.5rem;
       }
 
+      /* New login link position */
+      .login-link-container {
+        text-align: right;
+        margin-bottom: 1.5rem;
+      }
+
       /* Responsive Design */
       @media (max-width: 768px) {
         .header {
           flex-direction: column;
           align-items: flex-start;
           gap: 1rem;
-          margin-bottom: 2rem;
+          margin-bottom: 1rem;
         }
 
         .main-content {
@@ -723,6 +730,11 @@
 
         .social-buttons {
           flex-direction: column;
+        }
+
+        .login-link-container {
+          text-align: center;
+          margin-bottom: 1rem;
         }
       }
 
@@ -776,42 +788,22 @@
           />
           <h1 class="brand-name">Fetish Zone</h1>
         </div>
-        <a href="/login/" class="login-link">Already a member? Sign in</a>
       </header>
 
+      <section class="hero-section">
+        <div class="decorative-element"></div>
+        <h2 class="hero-title">Join Our Exclusive Community</h2>
+        <p class="hero-subtitle">
+          Become part of Fetish Zone and unlock a world of premium content,
+          exclusive products, and a community that shares your passions.
+        </p>
+      </section>
+
+      <div class="login-link-container">
+        <a href="/login/" class="login-link">Already a member? Sign in</a>
+      </div>
+
       <main class="main-content">
-        <section class="hero-section">
-          <div class="decorative-element"></div>
-          <h2 class="hero-title">Join Our Exclusive Community</h2>
-          <p class="hero-subtitle">
-            Become part of Fetish Zone and unlock a world of premium content,
-            exclusive products, and a community that shares your passions.
-          </p>
-
-          <!-- <ul class="benefits-list">
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Access to premium content and products
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Exclusive member discounts and early access
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Private community forums and events
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Personalized recommendations
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Discreet packaging and billing
-            </li>
-          </ul> -->
-        </section>
-
         <div class="signup-form-container">
           <h3 class="form-title">Create Account</h3>
           <form id="signupForm" class="signup-form">
@@ -921,7 +913,7 @@
       </main>
 
       <footer class="footer">
-<!--         <p>© 2025 Fetish Zone. All rights reserved.</p>
+        <!-- <p>© 2025 Fetish Zone. All rights reserved.</p>
         <div class="footer-links">
           <a href="#" class="footer-link">Privacy Policy</a>
           <a href="#" class="footer-link">Terms of Service</a>
