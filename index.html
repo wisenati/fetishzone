@@ -1711,6 +1711,356 @@
         padding: 0 15px;
         cursor: pointer;
       }
+
+
+      /* Age Verification Modal */
+        .age-verification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            
+        }
+
+        .age-verification-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .age-verification-modal {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: var(--transition);
+            position: relative;
+            /* overflow: hidden; */
+            overflow-y: auto; /* Enable scrolling */
+        }
+
+        .age-verification-overlay.active .age-verification-modal {
+            transform: scale(1);
+            opacity: 1;
+            
+        }
+
+        .age-verification-modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(139, 92, 246, 0.1) 0%,
+                rgba(244, 63, 94, 0.1) 100%
+            );
+            z-index: -1;
+            
+        }
+
+        .age-verification-header {
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .age-verification-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .age-verification-title {
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .age-verification-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .age-verification-content {
+            padding: 2rem;
+        }
+
+        .age-verification-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: var(--gray-light);
+            text-align: center;
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .age-verification-message::before,
+        .age-verification-message::after {
+            content: '"';
+            font-family: "Playfair Display", serif;
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .age-verification-message::before {
+            top: -10px;
+            left: 10px;
+        }
+
+        .age-verification-message::after {
+            bottom: -30px;
+            right: 10px;
+        }
+
+        .age-verification-warning {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .warning-icon {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        .age-verification-footer {
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .age-verification-label {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .age-verification-label i {
+            color: var(--primary);
+        }
+
+        .age-verification-disclaimer {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .age-verification-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .age-verification-btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .enter-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        }
+
+        .exit-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+        }
+
+        .exit-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* Decorations */
+        .modal-decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .decoration-1 {
+            background: var(--primary);
+            top: -50px;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decoration-2 {
+            background: var(--secondary);
+            bottom: -50px;
+            left: -50px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar */
+        .age-verification-modal::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .age-verification-modal::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .age-verification-modal::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .age-verification-title {
+                font-size: 1.8rem;
+            }
+
+            .age-verification-message {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .age-verification-buttons {
+                flex-direction: column;
+            }
+
+            .age-verification-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .age-verification-title {
+                font-size: 1.5rem;
+            }
+
+            .age-verification-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .age-verification-content {
+                padding: 1.5rem;
+            }
+
+            .age-verification-footer {
+                padding: 1rem;
+            }
+        }
     </style>
   </head>
   <body>
@@ -1842,19 +2192,19 @@
           <div
             class="hero-slide"
             style="
-              background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1999&q=80');
+              background-image: url('https://codehubme.wordpress.com/wp-content/uploads/2025/06/img-20250622-wa00018078848266198815253.jpg');
             "
           ></div>
           <div
             class="hero-slide"
             style="
-              background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80');
+              background-image: url('https://codehubme.wordpress.com/wp-content/uploads/2025/07/img-20250701-wa00908842187418155180810.jpg');
             "
           ></div>
           <div
             class="hero-slide"
             style="
-              background-image: url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+              background-image: url('https://codehubme.wordpress.com/wp-content/uploads/2025/07/img-20250703-wa00581180864952248199859.jpg');
             "
           ></div>
         </div>
@@ -2125,6 +2475,60 @@
         <h4 id="statusTitle">Success!</h4>
         <p id="statusDescription">Operation completed successfully</p>
       </div>
+    </div>
+
+
+
+    <!-- Age Verification Modal -->
+    <div class="age-verification-overlay active" id="ageVerificationOverlay">
+        <div class="age-verification-modal">
+            <div class="modal-decoration decoration-1"></div>
+            <div class="modal-decoration decoration-2"></div>
+            
+            <div class="age-verification-header">
+                <img src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png" alt="Logo" class="age-verification-logo">
+                <h1 class="age-verification-title">Age Verification</h1>
+                <p class="age-verification-subtitle">Premium Luxury Store</p>
+            </div>
+            
+            <div class="age-verification-content">
+                <div class="age-verification-message">
+                    You are about to enter a website that contains adult imagery and products. 
+                    The products and contents contained in this site are intended for locations 
+                    where the viewing, sales and use are legal.
+                </div>
+                
+                <div class="age-verification-warning">
+                    <i class="fas fa-exclamation-triangle warning-icon"></i>
+                    <p class="warning-text">
+                        This website contains adult content and is only suitable for those who are 18 years or older. 
+                        By entering, you confirm that you meet the age requirement.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="age-verification-footer">
+                <div class="age-verification-label">
+                    <i class="fas fa-shield-alt"></i>
+                    AGE VERIFICATION
+                </div>
+                <p class="age-verification-disclaimer">
+                    By clicking enter I certify that I am over the age of 18 and agree to comply 
+                    with the regulations that are currently enforced at my location.
+                </p>
+                
+                <div class="age-verification-buttons">
+                    <button class="age-verification-btn enter-btn" id="enterBtn">
+                        <i class="fas fa-check-circle"></i>
+                        Enter
+                    </button>
+                    <button class="age-verification-btn exit-btn" id="exitBtn">
+                        <i class="fas fa-times-circle"></i>
+                        Exit
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -2997,6 +3401,60 @@
       window.changeModalQuantity = changeModalQuantity;
       window.addToCartFromModal = addToCartFromModal;
       window.closeProductDetailModal = closeProductDetailModal;
+    </script>
+     <script>
+        // DOM Elements
+        const ageVerificationOverlay = document.getElementById('ageVerificationOverlay');
+        const enterBtn = document.getElementById('enterBtn');
+        const exitBtn = document.getElementById('exitBtn');
+
+        // Animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                ageVerificationOverlay.classList.add('active');
+            }, 100);
+        });
+
+        // Enter button click handler
+        enterBtn.addEventListener('click', () => {
+            ageVerificationOverlay.classList.remove('active');
+            setTimeout(() => {
+                ageVerificationOverlay.style.display = 'none';
+                // You can add any code to proceed with the website here
+            }, 400);
+        });
+
+        // Exit button click handler
+        exitBtn.addEventListener('click', () => {
+            // Add animation before redirecting
+            ageVerificationOverlay.classList.remove('active');
+            setTimeout(() => {
+                window.location.href = 'https://www.google.com';
+            }, 400);
+        });
+
+        // Add ripple effect to buttons
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add("ripple");
+
+            const ripple = button.getElementsByClassName("ripple")[0];
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        enterBtn.addEventListener("click", createRipple);
+        exitBtn.addEventListener("click", createRipple);
     </script>
   </body>
 </html>
