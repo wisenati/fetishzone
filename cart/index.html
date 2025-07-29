@@ -1465,7 +1465,12 @@
                 </div>
 
                 <div class="qr-code-container">
-                  <div class="qr-code" id="btcQrCode"></div>
+                  <img
+                    src="https://codehubme.wordpress.com/wp-content/uploads/2025/07/img-20250729-wa00454465890024957215796.jpg"
+                    alt="Bitcoin QR Code"
+                    class="qr-code"
+                    style="width: 150px; height: 150px; border-radius: 10px"
+                  />
                 </div>
 
                 <div class="crypto-wallet-address" id="BTCAddress">
@@ -1974,21 +1979,21 @@
       function generateQRCodes() {
         const btcAddress = document.getElementById("BTCAddress").textContent;
 
-        QRCode.toCanvas(
-          document.getElementById("btcQrCode"),
-          `bitcoin:${btcAddress}`,
-          {
-            width: 150,
-            margin: 0,
-            color: {
-              dark: "#000000",
-              light: "#ffffff",
-            },
-          },
-          (error) => {
-            if (error) console.error("BTC QR error:", error);
-          }
-        );
+        // QRCode.toCanvas(
+        //   document.getElementById("btcQrCode"),
+        //   `bitcoin:${btcAddress}`,
+        //   {
+        //     width: 150,
+        //     margin: 0,
+        //     color: {
+        //       dark: "#000000",
+        //       light: "#ffffff",
+        //     },
+        //   },
+        //   (error) => {
+        //     if (error) console.error("BTC QR error:", error);
+        //   }
+        // );
       }
 
       // Load cart items
