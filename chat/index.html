@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customer Support Chat</title>
+    <title>Fetishromance | Customer Support</title>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
@@ -18,7 +18,7 @@
 
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -30,10 +30,9 @@
 
     <style>
       :root {
-        --primary: #7c3aed;
-        --primary-light: #8b5cf6;
-        --primary-dark: #6d28d9;
-        --secondary: #ec4899;
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --secondary: #f43f5e;
         --accent: #06b6d4;
         --dark: #1e293b;
         --darker: #0f172a;
@@ -44,10 +43,9 @@
         --success: #10b981;
         --error: #ef4444;
         --warning: #f59e0b;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
-        --border-radius: 12px;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.2);
       }
 
       * {
@@ -57,37 +55,42 @@
       }
 
       body {
-        font-family: "Poppins", sans-serif;
+        font-family: "Montserrat", sans-serif;
         background-color: var(--darker);
         color: var(--light);
         min-height: 100vh;
         overflow-x: hidden;
         background-image: radial-gradient(
-            circle at 10% 20%,
-            rgba(6, 182, 212, 0.1) 0%,
-            transparent 30%
+            at 80% 0%,
+            hsla(189, 100%, 56%, 0.1) 0px,
+            transparent 50%
           ),
           radial-gradient(
-            circle at 90% 80%,
-            rgba(124, 58, 237, 0.1) 0%,
-            transparent 30%
+            at 0% 50%,
+            hsla(355, 100%, 93%, 0.1) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 80% 100%,
+            hsla(260, 100%, 70%, 0.1) 0px,
+            transparent 50%
           );
       }
 
-      /* Loader */
+      /* Luxury Loader */
       .loader-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: var(--darker);
+        background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
       }
 
       .loader-container.hidden {
@@ -96,35 +99,117 @@
       }
 
       .loader {
-        width: 60px;
-        height: 60px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
+        width: 100px;
+        height: 100px;
+        position: relative;
+        margin-bottom: 2rem;
+      }
+
+      .loader-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid transparent;
         border-radius: 50%;
+        animation: spin 2s linear infinite;
+      }
+
+      .loader-ring:nth-child(1) {
         border-top-color: var(--primary);
-        animation: spin 1s ease-in-out infinite;
-        margin-bottom: 1.5rem;
+        animation-delay: 0s;
+      }
+
+      .loader-ring:nth-child(2) {
+        border-right-color: var(--secondary);
+        animation-delay: 0.3s;
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+      }
+
+      .loader-ring:nth-child(3) {
+        border-bottom-color: var(--gold);
+        animation-delay: 0.6s;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
       }
 
       @keyframes spin {
-        to {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
           transform: rotate(360deg);
+        }
+      }
+
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 2rem;
+        animation: pulse 2s infinite;
+        filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
         }
       }
 
       .loader-text {
         font-family: "Playfair Display", serif;
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 700;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        background: linear-gradient(
+          90deg,
+          var(--primary),
+          var(--secondary),
+          var(--gold)
+        );
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        animation: shimmer 3s infinite;
       }
 
-      .loader-subtext {
+      @keyframes shimmer {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      .loader-subtitle {
+        margin-top: 1rem;
         color: var(--gray);
-        font-size: 0.9rem;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        animation: fadeInOut 2s infinite;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       /* Header */
@@ -132,132 +217,200 @@
         position: sticky;
         top: 0;
         background: rgba(15, 23, 42, 0.95);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 100;
-        padding: 0.75rem 1rem;
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: var(--transition);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
 
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
       .logo {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        transform: rotate(15deg) scale(1.1);
+      }
+
+      .brand-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        text-decoration: none;
       }
 
-      .logo-icon {
-        width: 30px;
-        height: 30px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border-radius: 8px;
+      .back-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+      }
+
+      .user-btn {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--light);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1.1rem;
+      }
+
+      .user-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      /* Main Container */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 80px);
+        max-width: 1400px;
+        margin: 0 auto;
+        opacity: 0;
+        animation: fadeIn 0.5s forwards 0.3s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Chat Area */
+      .chat-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(10px);
+      }
+
+      /* Chat Header */
+      .chat-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .chat-header-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
         color: white;
       }
 
-      .logo-text {
+      .chat-header-info {
+        flex: 1;
+      }
+
+      .chat-header-name {
         font-family: "Playfair Display", serif;
-        font-weight: 700;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
       }
 
-      .user-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        color: var(--light);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .user-btn:hover {
-        background: var(--primary);
-        transform: translateY(-2px);
-      }
-
-      /* Chat Container */
-      .chat-container {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 60px);
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      /* Chat Header */
-      .chat-header {
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .chat-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-      }
-
-      .chat-info {
-        flex: 1;
-      }
-
-      .chat-name {
-        font-weight: 600;
-        font-size: 1rem;
-      }
-
-      .chat-status {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.75rem;
+      .chat-header-status {
+        font-size: 0.85rem;
         color: var(--gray);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
 
       .status-indicator {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background: var(--success);
       }
 
-      /* Messages Area */
-      .messages-container {
+      /* Chat Messages */
+      .chat-messages {
         flex: 1;
-        padding: 1rem;
+        padding: 1.5rem;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
       }
 
       .message {
-        display: flex;
-        max-width: 85%;
-        animation: fadeInUp 0.3s ease-out;
+        max-width: 70%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        position: relative;
+        animation: slideIn 0.3s ease-out;
+        word-wrap: break-word;
       }
 
-      @keyframes fadeInUp {
+      @keyframes slideIn {
         from {
           opacity: 0;
           transform: translateY(10px);
@@ -268,148 +421,109 @@
         }
       }
 
-      .message.received {
-        align-self: flex-start;
-      }
-
-      .message.sent {
+      .message-user {
         align-self: flex-end;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-top-right-radius: 4px;
       }
 
-      .message-bubble {
-        padding: 0.75rem 1rem;
-        border-radius: var(--border-radius);
-        line-height: 1.4;
-        position: relative;
-        transition: var(--transition);
-      }
-
-      .message.received .message-bubble {
-        background: rgba(255, 255, 255, 0.1);
+      .message-admin {
+        align-self: flex-start;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--light);
         border-top-left-radius: 4px;
       }
 
-      .message.sent .message-bubble {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border-top-right-radius: 4px;
-        color: white;
-      }
-
       .message-time {
+        display: block;
         font-size: 0.7rem;
-        color: var(--gray-light);
-        margin-top: 0.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
+        opacity: 0.7;
+        margin-top: 4px;
+        text-align: right;
       }
 
-      .message.sent .message-time {
-        justify-content: flex-end;
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      .message-status {
-        font-size: 0.6rem;
-      }
-
-      /* Date Divider */
-      .date-divider {
-        display: flex;
-        align-items: center;
-        margin: 1rem 0;
-        color: var(--gray);
-        font-size: 0.8rem;
-      }
-
-      .date-divider::before,
-      .date-divider::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.1);
-        margin: 0 0.5rem;
-      }
-
-      /* Message Input */
-      .message-input-container {
-        padding: 1rem;
+      /* Chat Input */
+      .chat-input-container {
+        padding: 1.5rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(15, 23, 42, 0.9);
+        position: relative;
       }
 
-      .message-input-wrapper {
+      .chat-input-wrapper {
         display: flex;
-        align-items: center;
         gap: 0.5rem;
       }
 
-      .message-input {
+      .chat-input {
         flex: 1;
-        padding: 0.75rem 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: var(--border-radius);
+        padding: 12px 16px;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
         color: var(--light);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         transition: var(--transition);
         resize: none;
+        min-height: 50px;
         max-height: 120px;
       }
 
-      .message-input:focus {
+      .chat-input:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
       }
 
       .send-btn {
-        width: 44px;
-        height: 44px;
+        width: 50px;
+        height: 50px;
         background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
         border: none;
         border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        transition: var(--transition);
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1.2rem;
       }
 
       .send-btn:hover {
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
       }
 
       .send-btn:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-        transform: none !important;
-        background: var(--gray);
+        transform: none;
+        box-shadow: none;
       }
 
       /* Status Message */
       .status-message {
         position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
+        top: 100px;
+        right: 20px;
         background: linear-gradient(135deg, var(--success), #059669);
         color: white;
-        padding: 0.75rem 1.25rem;
-        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
         box-shadow: var(--shadow-lg);
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        z-index: 1000;
+        gap: 1rem;
+        z-index: 4000;
+        transform: translateX(150%);
         transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        max-width: 90%;
+        max-width: 350px;
       }
 
       .status-message.show {
-        transform: translateX(-50%) translateY(0);
+        transform: translateX(0);
       }
 
       .status-message.error {
@@ -417,185 +531,203 @@
       }
 
       .status-icon {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        flex-shrink: 0;
       }
 
-      .status-text {
+      .status-text h4 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .status-text p {
         font-size: 0.9rem;
+        opacity: 0.9;
       }
 
       /* Empty State */
       .empty-state {
-        flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        height: 100%;
         text-align: center;
         padding: 2rem;
-        color: var(--gray);
+        opacity: 0.7;
       }
 
       .empty-icon {
-        font-size: 2.5rem;
+        font-size: 3rem;
         margin-bottom: 1rem;
-        opacity: 0.5;
+        color: var(--gray);
       }
 
-      .empty-title {
+      .empty-text {
         font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: var(--light);
-      }
-
-      .empty-description {
-        font-size: 0.9rem;
-        line-height: 1.5;
-      }
-
-      /* Product Reference */
-      .product-reference {
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        padding: 0.75rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .product-reference-title {
-        font-weight: 600;
-        margin-bottom: 0.25rem;
-      }
-
-      .product-reference-content {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      .product-reference-image {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        object-fit: cover;
-      }
-
-      .product-reference-info {
-        flex: 1;
-      }
-
-      .product-reference-name {
-        font-weight: 500;
-        font-size: 0.9rem;
-      }
-
-      .product-reference-price {
-        color: var(--gold);
-        font-size: 0.85rem;
-        font-weight: 600;
+        color: var(--gray);
+        max-width: 300px;
       }
 
       /* Responsive Design */
-      @media (min-width: 768px) {
-        .header {
-          padding: 0.75rem 2rem;
+      @media (max-width: 768px) {
+        .header-content {
+          padding: 0 1rem;
         }
 
+        .brand-name {
+          display: none;
+        }
+
+        .back-btn span {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
         .chat-header {
-          padding: 1rem 2rem;
+          padding: 1rem;
         }
 
-        .messages-container {
-          padding: 1rem 2rem;
+        .chat-header-name {
+          font-size: 1.1rem;
         }
 
-        .message-input-container {
-          padding: 1rem 2rem;
+        .chat-header-status {
+          font-size: 0.8rem;
+        }
+
+        .chat-messages {
+          padding: 1rem;
         }
 
         .message {
-          max-width: 70%;
+          max-width: 85%;
+        }
+
+        .chat-input-container {
+          padding: 1rem;
+        }
+
+        .chat-input {
+          min-height: 45px;
+          font-size: 0.8rem;
+        }
+
+        .send-btn {
+          width: 45px;
+          height: 45px;
+          font-size: 1rem;
         }
       }
 
       /* Custom Scrollbar */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
       }
 
       ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
       }
 
       ::-webkit-scrollbar-thumb {
-        background: var(--primary);
-        border-radius: 3px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 4px;
       }
 
       ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-dark);
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--secondary)
+        );
       }
     </style>
   </head>
   <body>
-    <!-- Loader -->
+    <!-- Luxury Loader -->
     <div class="loader-container" id="loader">
-      <div class="loader"></div>
-      <div class="loader-text">Support Chat</div>
-      <div class="loader-subtext">Connecting you with our team</div>
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+        alt="Fetishromance Logo"
+        class="loader-logo"
+      />
+      <div class="loader-text">Fetishromance</div>
+      <div class="loader-subtitle">Customer Support</div>
     </div>
 
     <!-- Header -->
     <header class="header">
-      <a href="/" class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-headset"></i>
+      <div class="header-content">
+        <div class="logo-container">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/10856/10856545.png"
+            alt="Fetishromance Logo"
+            class="logo"
+          />
+          <h1 class="brand-name">Fetishromance</h1>
         </div>
-        <span class="logo-text">Support</span>
-      </a>
 
-      <button class="user-btn" id="userBtn">
-        <i class="fas fa-user"></i>
-      </button>
+        <div class="header-actions">
+          <button class="back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+          </button>
+
+          <button class="user-btn" id="userBtn">
+            <i class="fas fa-user"></i>
+          </button>
+        </div>
+      </div>
     </header>
 
-    <!-- Chat Container -->
+    <!-- Main Chat Container -->
     <div class="chat-container">
-      <!-- Chat Header -->
-      <div class="chat-header">
-        <div class="chat-avatar">
-          <i class="fas fa-headset"></i>
-        </div>
-        <div class="chat-info">
-          <div class="chat-name">Customer Support</div>
-          <div class="chat-status">
-            <span class="status-indicator"></span>
-            <span>Online</span>
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-header-avatar">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div class="chat-header-info">
+            <h3 class="chat-header-name">Customer Support</h3>
+            <div class="chat-header-status">
+              <span class="status-indicator"></span>
+              <span id="chatStatus">Connecting...</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Messages Container -->
-      <div class="messages-container" id="messagesContainer">
-        <div class="empty-state">
-          <i class="fas fa-comment-dots empty-icon"></i>
-          <h3 class="empty-title">Welcome to support chat</h3>
-          <p class="empty-description">Start chatting with our support team</p>
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <p class="empty-text">Connecting to support...</p>
+          </div>
         </div>
-      </div>
 
-      <!-- Message Input -->
-      <div class="message-input-container">
-        <div class="message-input-wrapper">
-          <textarea
-            class="message-input"
-            id="messageInput"
-            placeholder="Type your message..."
-            rows="1"
-          ></textarea>
-          <button class="send-btn" id="sendBtn" disabled>
-            <i class="fas fa-paper-plane"></i>
-          </button>
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+          <div class="chat-input-wrapper">
+            <textarea
+              class="chat-input"
+              id="messageInput"
+              placeholder="Type your message here..."
+              rows="1"
+            ></textarea>
+            <button class="send-btn" id="sendBtn" disabled>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -603,7 +735,10 @@
     <!-- Status Message -->
     <div class="status-message" id="statusMessage">
       <i class="fas fa-check-circle status-icon"></i>
-      <div class="status-text" id="statusText">Message sent successfully</div>
+      <div class="status-text">
+        <h4 id="statusTitle">Success!</h4>
+        <p id="statusDescription">Operation completed successfully</p>
+      </div>
     </div>
 
     <script>
@@ -620,21 +755,24 @@
 
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      const database = firebase.database();
       const auth = firebase.auth();
+      const database = firebase.database();
 
       // Global variables
-      let currentUser = null;
       let currentChatId = null;
-      let messages = [];
+      let currentUserId = null;
+      let messagesRef = null;
 
       // DOM Elements
       const loader = document.getElementById("loader");
-      const messagesContainer = document.getElementById("messagesContainer");
+      const backBtn = document.getElementById("backBtn");
+      const chatMessages = document.getElementById("chatMessages");
       const messageInput = document.getElementById("messageInput");
       const sendBtn = document.getElementById("sendBtn");
+      const chatStatus = document.getElementById("chatStatus");
       const statusMessage = document.getElementById("statusMessage");
-      const statusText = document.getElementById("statusText");
+      const statusTitle = document.getElementById("statusTitle");
+      const statusDescription = document.getElementById("statusDescription");
 
       // Initialize the application
       document.addEventListener("DOMContentLoaded", () => {
@@ -642,39 +780,24 @@
       });
 
       async function initializeApp() {
-        // Hide loader after 1.5 seconds
+        // Hide loader after 2 seconds
         setTimeout(() => {
           loader.classList.add("hidden");
-        }, 1500);
-
-        // Check authentication
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            currentUser = user;
-            startNewChat();
-          } else {
-            // Create anonymous user for chat
-            auth
-              .signInAnonymously()
-              .then(() => {
-                console.log("Signed in anonymously");
-              })
-              .catch((error) => {
-                console.error("Anonymous auth error:", error);
-                showStatus(
-                  "error",
-                  "Connection Error",
-                  "Failed to connect to chat service"
-                );
-              });
-          }
-        });
+        }, 2000);
 
         // Setup event listeners
         setupEventListeners();
+
+        // Initialize chat
+        initializeChat();
       }
 
       function setupEventListeners() {
+        // Back button
+        backBtn.addEventListener("click", () => {
+          window.history.back();
+        });
+
         // Message input
         messageInput.addEventListener("input", () => {
           sendBtn.disabled = messageInput.value.trim() === "";
@@ -683,319 +806,253 @@
         messageInput.addEventListener("keydown", (e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            if (!sendBtn.disabled) {
+            if (messageInput.value.trim() !== "") {
               sendMessage();
             }
           }
         });
 
-        // Auto-resize textarea
-        messageInput.addEventListener("input", function () {
-          this.style.height = "auto";
-          this.style.height = this.scrollHeight + "px";
-        });
-
-        // Send message
+        // Send button
         sendBtn.addEventListener("click", sendMessage);
       }
 
-      // Start new chat
-      function startNewChat() {
-        if (!currentUser) return;
+      // Initialize chat with support
+      function initializeChat() {
+        // Check if user is authenticated
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUserId = user.uid;
+            chatStatus.textContent = "Online";
 
-        // Create new conversation
-        const newConversationRef = database.ref("conversations").push();
-        currentChatId = newConversationRef.key;
+            // Check for existing active chat
+            database
+              .ref("chats")
+              .orderByChild("userId")
+              .equalTo(user.uid)
+              .once("value")
+              .then((snapshot) => {
+                const chats = snapshot.val();
 
-        const conversationData = {
-          userId: currentUser.uid,
-          userName: "Guest",
-          status: "open",
-          createdAt: firebase.database.ServerValue.TIMESTAMP,
-          updatedAt: firebase.database.ServerValue.TIMESTAMP,
-          lastMessage: "Chat started",
-          lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
-        };
+                if (chats) {
+                  // Find the first active chat
+                  const chatId = Object.keys(chats).find(
+                    (key) => chats[key].status === "active"
+                  );
 
-        // Save to conversations
-        newConversationRef
-          .set(conversationData)
+                  if (chatId) {
+                    currentChatId = chatId;
+                    loadChatMessages(chatId);
+                  } else {
+                    // Create a new chat
+                    createNewChat();
+                  }
+                } else {
+                  // Create a new chat
+                  createNewChat();
+                }
+              })
+              .catch((error) => {
+                console.error("Error checking for existing chats:", error);
+                showStatus(
+                  "error",
+                  "Connection Error",
+                  "Failed to connect to support"
+                );
+              });
+          } else {
+            // User not authenticated - redirect to login
+            window.location.href = "/login/";
+          }
+        });
+      }
+
+      // Create a new chat with support
+      function createNewChat() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const newChatRef = database.ref("chats").push();
+        currentChatId = newChatRef.key;
+
+        newChatRef
+          .set({
+            userId: user.uid,
+            userName: user.displayName || "User",
+            status: "active",
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+            lastMessage: "Chat started",
+            lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
+          })
           .then(() => {
-            // Load messages
-            loadMessages();
+            // Send initial greeting message from support
+            const greetingMessage = {
+              sender: "admin",
+              text: "Hello! Thank you for contacting Fetishromance support. How can we help you today?",
+              timestamp: firebase.database.ServerValue.TIMESTAMP,
+            };
 
-            // Send welcome message
-            setTimeout(() => {
-              sendSystemMessage("Hello! How can we help you today?");
-            }, 1000);
+            database
+              .ref(`chats/${currentChatId}/messages`)
+              .push()
+              .set(greetingMessage)
+              .then(() => {
+                // Update chat last message
+                database.ref(`chats/${currentChatId}`).update({
+                  lastMessage: greetingMessage.text,
+                  lastMessageTime: greetingMessage.timestamp,
+                });
+
+                // Load messages
+                loadChatMessages(currentChatId);
+              });
           })
           .catch((error) => {
-            console.error("Error creating conversation:", error);
-            showStatus("error", "Connection Error", "Failed to start chat");
+            console.error("Error creating new chat:", error);
+            showStatus(
+              "error",
+              "Connection Error",
+              "Failed to start chat with support"
+            );
           });
       }
 
-      // Load messages
-      function loadMessages() {
-        messagesContainer.innerHTML = "";
-        messages = [];
+      // Load messages for the current chat
+      function loadChatMessages(chatId) {
+        chatMessages.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <p class="empty-text">Loading messages...</p>
+          </div>
+        `;
 
-        database
-          .ref(`messages/${currentChatId}`)
-          .orderByChild("timestamp")
-          .on("value", (snapshot) => {
-            messagesContainer.innerHTML = "";
-            messages = [];
+        messagesRef = database
+          .ref(`chats/${chatId}/messages`)
+          .orderByChild("timestamp");
 
-            if (!snapshot.exists()) {
-              showEmptyState();
+        messagesRef.on(
+          "value",
+          (snapshot) => {
+            const messages = snapshot.val();
+            chatMessages.innerHTML = "";
+
+            if (!messages) {
+              chatMessages.innerHTML = `
+                <div class="empty-state">
+                  <div class="empty-icon">
+                    <i class="fas fa-comments"></i>
+                  </div>
+                  <p class="empty-text">No messages yet</p>
+                </div>
+              `;
               return;
             }
 
-            let currentDate = null;
-            let hasMessages = false;
+            // Convert messages object to array and sort by timestamp
+            const messagesArray = Object.values(messages);
+            messagesArray.sort((a, b) => a.timestamp - b.timestamp);
 
-            snapshot.forEach((childSnapshot) => {
-              hasMessages = true;
-              const message = {
-                id: childSnapshot.key,
-                ...childSnapshot.val(),
-              };
-              messages.push(message);
-
-              // Group messages by date
-              const messageDate = new Date(message.timestamp);
-              const dateString = messageDate.toLocaleDateString([], {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              });
-
-              if (dateString !== currentDate) {
-                currentDate = dateString;
-                const dateDiv = document.createElement("div");
-                dateDiv.className = "date-divider";
-                dateDiv.textContent = dateString;
-                messagesContainer.appendChild(dateDiv);
-              }
-
-              const messageDiv = createMessageElement(message);
-              messagesContainer.appendChild(messageDiv);
+            messagesArray.forEach((message) => {
+              addMessageToChat(message.sender, message.text, message.timestamp);
             });
 
             // Scroll to bottom
             setTimeout(() => {
-              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
-
-            if (!hasMessages) {
-              showEmptyState();
-            }
-          });
+          },
+          (error) => {
+            console.error("Error loading messages:", error);
+            chatMessages.innerHTML = `
+              <div class="empty-state">
+                <div class="empty-icon">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <p class="empty-text">Failed to load messages</p>
+              </div>
+            `;
+          }
+        );
       }
 
-      // Show empty state
-      function showEmptyState() {
-        messagesContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-comment-dots empty-icon"></i>
-            <h3 class="empty-title">Welcome to support chat</h3>
-            <p class="empty-description">Start chatting with our support team</p>
-          </div>
-        `;
-      }
-
-      // Create message element
-      function createMessageElement(message) {
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${
-          message.sender === "user" ? "sent" : "received"
-        } animate__animated animate__fadeInUp`;
-
-        const messageDate = new Date(message.timestamp);
-        const timeString = messageDate.toLocaleTimeString([], {
+      // Add a message to the chat UI
+      function addMessageToChat(sender, text, timestamp) {
+        const messageTime = timestamp ? new Date(timestamp) : new Date();
+        const formattedTime = messageTime.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         });
 
-        let messageContent = message.text;
-        if (message.productId) {
-          messageContent = `
-            <div class="product-reference">
-              <div class="product-reference-title">Product Reference</div>
-              <div class="product-reference-content">
-                <img src="${
-                  message.productImage ||
-                  "https://via.placeholder.com/100?text=Product"
-                }" 
-                     alt="Product" class="product-reference-image">
-                <div class="product-reference-info">
-                  <div class="product-reference-name">${
-                    message.productName || "Product"
-                  }</div>
-                  ${
-                    message.productPrice
-                      ? `<div class="product-reference-price">$${message.productPrice.toFixed(
-                          2
-                        )}</div>`
-                      : ""
-                  }
-                </div>
-              </div>
-            </div>
-            ${message.text}
-          `;
-        }
-
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message message-${
+          sender === "user" ? "user" : "admin"
+        }`;
         messageDiv.innerHTML = `
-          <div class="message-bubble">
-            <div class="message-text">${messageContent}</div>
-            <div class="message-time">
-              ${timeString}
-              ${
-                message.sender === "user"
-                  ? '<i class="fas fa-check message-status"></i>'
-                  : ""
-              }
-            </div>
-          </div>
+          <p>${text}</p>
+          <span class="message-time">${formattedTime}</span>
         `;
 
-        return messageDiv;
+        // Add animation
+        messageDiv.style.animation = "slideIn 0.3s ease-out";
+
+        chatMessages.appendChild(messageDiv);
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
       }
 
-      // Send message
+      // Send a message as user
       function sendMessage() {
-        if (!currentChatId || !currentUser) return;
-
         const messageText = messageInput.value.trim();
-        if (!messageText) return;
+        if (messageText === "" || !currentChatId) return;
 
-        // Create message object
-        const message = {
-          text: messageText,
-          sender: "user",
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
-        };
-
-        // Save message to Firebase
-        database
-          .ref(`messages/${currentChatId}`)
-          .push(message)
+        // Add message to Firebase
+        const newMessageRef = database
+          .ref(`chats/${currentChatId}/messages`)
+          .push();
+        newMessageRef
+          .set({
+            sender: "user",
+            text: messageText,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+          })
           .then(() => {
-            // Update conversation last message
-            updateConversationLastMessage(messageText);
+            // Update chat last message
+            database.ref(`chats/${currentChatId}`).update({
+              lastMessage: messageText,
+              lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
+            });
+
+            // Clear input
             messageInput.value = "";
             sendBtn.disabled = true;
-            messageInput.style.height = "auto";
-
-            // Show success status
-            showStatus(
-              "success",
-              "Message sent",
-              "Your message was sent successfully"
-            );
           })
           .catch((error) => {
             console.error("Error sending message:", error);
-            showStatus(
-              "error",
-              "Error",
-              "Failed to send message. Please try again."
-            );
-          });
-      }
-
-      // Send system message
-      function sendSystemMessage(text) {
-        if (!currentChatId) return;
-
-        const message = {
-          text: text,
-          sender: "system",
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
-        };
-
-        database
-          .ref(`messages/${currentChatId}`)
-          .push(message)
-          .then(() => {
-            updateConversationLastMessage(text);
-          })
-          .catch((error) => {
-            console.error("Error sending system message:", error);
-          });
-      }
-
-      // Update conversation last message
-      function updateConversationLastMessage(messageText) {
-        if (!currentChatId || !currentUser) return;
-
-        const updateData = {
-          lastMessage: messageText,
-          lastMessageTime: firebase.database.ServerValue.TIMESTAMP,
-          updatedAt: firebase.database.ServerValue.TIMESTAMP,
-        };
-
-        database
-          .ref(`conversations/${currentChatId}`)
-          .update(updateData)
-          .catch((error) => {
-            console.error("Error updating conversation:", error);
+            showStatus("error", "Message Error", "Failed to send message");
           });
       }
 
       // Show status message
-      function showStatus(type, title, message) {
-        statusText.textContent = message;
+      function showStatus(type, title, description) {
+        statusTitle.textContent = title;
+        statusDescription.textContent = description;
 
         statusMessage.className = `status-message ${
           type === "error" ? "error" : ""
         }`;
-
-        // Set icon based on type
-        const icon = statusMessage.querySelector(".status-icon");
-        if (type === "error") {
-          icon.className = "fas fa-exclamation-circle status-icon";
-        } else {
-          icon.className = "fas fa-check-circle status-icon";
-        }
-
         statusMessage.classList.add("show");
 
         setTimeout(() => {
           statusMessage.classList.remove("show");
-        }, 3000);
+        }, 4000);
       }
 
-      // Listen for incoming messages
-      function listenForNewMessages() {
-        if (!currentChatId) return;
-
-        database
-          .ref(`messages/${currentChatId}`)
-          .orderByChild("timestamp")
-          .startAt(Date.now())
-          .on("child_added", (snapshot) => {
-            const message = snapshot.val();
-            if (message.sender !== "user") {
-              // Add message to UI
-              const messageDiv = createMessageElement({
-                id: snapshot.key,
-                ...message,
-              });
-              messagesContainer.appendChild(messageDiv);
-
-              // Scroll to bottom
-              setTimeout(() => {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-              }, 100);
-            }
-          });
-      }
-
-      // Initialize message listener when conversation is created
-      listenForNewMessages();
+      // Prevent browser warnings about dangerous site
+      window.onbeforeunload = function () {
+        return null;
+      };
     </script>
   </body>
 </html>
