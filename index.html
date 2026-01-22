@@ -1087,31 +1087,8 @@
         background: linear-gradient(90deg, var(--primary), var(--secondary));
       }
 
-      .footer-links {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-      }
-
-      .footer-link {
-        color: var(--gray);
-        text-decoration: none;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .footer-link:hover {
-        color: var(--primary);
-        transform: translateX(5px);
-      }
-
-      .footer-link i {
-        font-size: 0.8rem;
-      }
-
+      
+     
       .footer-bottom {
         max-width: 1400px;
         margin: 3rem auto 0;
@@ -1128,21 +1105,7 @@
         font-size: 0.9rem;
       }
 
-      .legal-links {
-        display: flex;
-        gap: 1.5rem;
-      }
-
-      .legal-link {
-        color: var(--gray);
-        text-decoration: none;
-        transition: var(--transition);
-        font-size: 0.9rem;
-      }
-
-      .legal-link:hover {
-        color: var(--primary);
-      }
+     
 
       /* Cart Drawer */
       .cart-drawer {
@@ -2051,7 +2014,7 @@
             }
         }
 
-      /* Footer Preferences Styling */
+     /* Footer Preferences Styling */
         .footer-preferences {
             max-width: 1400px;
             margin: 2rem auto 0;
@@ -2091,17 +2054,16 @@
         /* Responsive Design */
         @media (max-width: 480px) {
             .footer-preferences {
-                flex-direction: column;
-                gap: 0.8rem;
-                text-align: center;
-            }
-
-            .preference-divider {
-                display: none;
+                font-size: 0.85rem;
+                gap: 0.5rem;
             }
 
             .preference-item {
-                justify-content: center;
+                font-size: 0.85rem;
+            }
+
+            .preference-item i {
+                font-size: 0.9rem;
             }
         }
 
